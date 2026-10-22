@@ -1,0 +1,35 @@
+LUKE MAY - GITHUB PAGES PUBLICATION GUIDE
+=========================================
+
+YOUR ACCOUNT: lukemay1181
+EXPECTED LIVE ADDRESS: https://lukemay1181.github.io/
+
+1. EXTRACT this ZIP on your computer first (right-click > Extract All).
+2. Go to https://github.com/new and sign in to lukemay1181.
+3. Repository name: lukemay1181.github.io
+4. Visibility: Public. Do not add the optional README, .gitignore or license.
+5. Click Create repository.
+6. On the new, empty repository page, click "uploading an existing file".
+7. Drag all FILES AND FOLDERS INSIDE the extracted website folder
+   (including index.html, assets, research and documents) into the upload box.
+   Do NOT drag the ZIP or an enclosing parent folder. The optional .nojekyll file
+   might be hidden on Windows; the website does not depend on it.
+8. Click Commit changes.
+9. In the repository, go to Settings > Pages.
+   Under Build and deployment, Source = Deploy from a branch,
+   Branch = main, Folder = /(root), then click Save.
+10. Return to Settings > Pages and click Visit site once available;
+    the expected address is https://lukemay1181.github.io/
+
+NOTE ABOUT PUBLIC INFORMATION
+-----------------------------
+Publishing makes all included files public, including your thesis, defence
+slides, anonymized undergraduate report, and portfolio-formatted resume.
+Your contact email is displayed. Make sure you have permission to publish
+collaborative material. Table 2.5 in the thesis remains untouched.
+The public résumé is a portfolio reformatted version (not the source PDF).
+
+EDIT LATER
+----------
+GitHub > repository > Add file > Upload files to replace site content,
+or edit HTML/CSS directly on GitHub. Public updates do not change the URL.
