@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f0f0f" />
+  <meta name="description" content="OFF SZN Lifting Club — Wear what moves you. Coming soon." />
+  <title>OFF SZN — Wear What Moves You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet" />
+  <style>
+    :root { color-scheme: dark; --ink: #0b0b0b; --cream: #f0eae0; --muted: #bfb8ae; --line: rgba(241,235,222,.28); }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--ink); color: var(--cream); font-family: 'DM Sans', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a:focus-visible { outline: 2px solid var(--cream); outline-offset: 5px; }
+    .skip { position: absolute; left: 8px; top: -50px; z-index: 99; background: var(--cream); color: var(--ink); padding: 10px 16px; }
+    .skip:focus { top: 8px; }
+    .canvas { min-height: 100svh; position: relative; overflow: hidden; isolation: isolate; display: flex; flex-direction: column; }
+    /* The live Lovable site's wall-and-shirts photograph is used as the primary artwork. */
+    .artwork { position: absolute; inset: 0; z-index: -3; overflow: hidden; background: #55524b; }
+    .artwork:before { content: ''; display: block; position: absolute; inset: 0; background: radial-gradient(circle at 49% 35%, #77736c 0%, #4a4843 48%, #211f1d 100%); }
+    .artwork img { width: 100%; height: 100%; object-fit: cover; object-position: center 46%; display: block; position: relative; }
+    .canvas:before { content: ''; position: absolute; inset: 0; z-index: -2; background: linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.04) 23%, rgba(0,0,0,.12) 53%, rgba(0,0,0,.70) 100%); pointer-events: none; }
+    .canvas:after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(0,0,0,.2),transparent 26%,transparent 76%,rgba(0,0,0,.2)); pointer-events: none; }
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: clamp(22px, 3vw, 48px) clamp(20px, 5vw, 85px); }
+    .brand { text-decoration: none; display: inline-flex; align-items: flex-start; gap: 10px; line-height: 1; }
+    .brand-mark { font-size: 28px; transform: translateY(-4px); }
+    .brand-type { display: flex; flex-direction: column; align-items: flex-start; }
+    .brand-name { font: 400 clamp(26px, 3.2vw, 43px)/.9 'Italiana', Georgia, serif; letter-spacing: -.075em; white-space: nowrap; }
+    .brand-label { margin-top: 7px; font-size: 8px; letter-spacing: .27em; font-weight: 700; }
+    .top-tag { text-transform: uppercase; letter-spacing: .28em; font-size: 10px; font-weight: 600; white-space: nowrap; }
+    .top-tag .dot { display: inline-block; width: 5px; height: 5px; margin-right: 10px; border-radius: 100%; background: var(--cream); vertical-align: 2px; }
+    .central-space { flex: 1; min-height: 49vh; }
+    .bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 36px; padding: 0 clamp(20px, 5vw, 85px) clamp(28px, 4.5vw, 64px); }
+    .eyebrow { margin: 0 0 14px; font-size: 10px; font-weight: 700; letter-spacing: .31em; text-transform: uppercase; }
+    .headline { margin: 0; font: 400 clamp(60px, 11vw, 172px)/.81 'Italiana', Georgia, serif; letter-spacing: -.075em; text-transform: uppercase; text-shadow: 0 2px 20px #0003; }
+    .subheading { margin: 24px 0 0; font-size: clamp(12px, 1vw, 15px); letter-spacing: .18em; text-transform: uppercase; font-weight: 600; }
+    .bottom-right { min-width: 160px; display: flex; flex-direction: column; gap: 14px; align-items: flex-end; text-align: right; padding-bottom: 3px; }
+    .bottom-right p { max-width: 250px; margin: 0; color: #ded8ce; font-size: 12px; line-height: 1.7; }
+    .social { display: inline-flex; text-decoration: none; border-bottom: 1px solid var(--cream); padding-bottom: 7px; font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+    .footerline { border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 16px clamp(20px, 5vw, 85px); font-size: 9px; letter-spacing: .2em; font-weight: 600; text-transform: uppercase; background: #121110; }
+    .footerline a { text-decoration: none; border-bottom: 1px solid #777; padding-bottom: 3px; }
+    @media (max-width: 720px) {
+      .canvas { min-height: 100svh; }
+      .artwork img { object-position: center 47%; }
+      .top { padding: 24px 23px; align-items: flex-start; }
+      .brand-name { font-size: 31px; }
+      .brand-mark { font-size: 23px; }
+      .top-tag { font-size: 8px; letter-spacing: .15em; padding-top: 6px; }
+      .central-space { min-height: 51vh; }
+      .bottom { padding: 0 23px 31px; display: block; }
+      .headline { font-size: clamp(65px, 15.1vw, 108px); line-height: .87; }
+      .subheading { font-size: 10px; margin-top: 20px; }
+      .bottom-right { margin-top: 24px; align-items: flex-start; text-align: left; gap: 8px; }
+      .bottom-right p { display: none; }
+      .footerline { padding: 16px 23px; letter-spacing: .09em; font-size: 8px; }
+    }
+    @media (prefers-reduced-motion: no-preference) { .bottom { animation: rise .75s ease-out both; } @keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } } }
+  </style>
+</head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+<main id="main" class="canvas">
+  <div class="artwork" aria-hidden="true">
+    <!-- The reference site image is a source-site dependency, not an embedded local asset. -->
+    <img src="https://fandom-offseason-threads.lovable.app/__l5e/assets-v1/5ce6800f-434f-4ea0-b4d0-113bd6073832/rack-wall.jpg" alt="" />
+  </div>
+  <header class="top">
+    <a class="brand" href="#main" aria-label="OFF SZN home">
+      <span class="brand-mark" aria-hidden="true">✧</span>
+      <span class="brand-type"><span class="brand-name">OFF SZN</span><span class="brand-label">LIFTING CLUB</span></span>
+    </a>
+    <div class="top-tag"><span class="dot"></span> A NEW SEASON IS COMING</div>
+  </header>
+  <div class="central-space" aria-hidden="true"></div>
+  <section class="bottom" aria-label="Coming soon">
+    <div class="bottom-left"><p class="eyebrow">OFF SZN / LIFTING CLUB</p><h1 class="headline">COMING<br>SOON.</h1><p class="subheading">Wear what moves you.</p></div>
+    <div class="bottom-right"><p>Built for the days that don't come with an off-season.</p><a class="social" href="https://www.instagram.com/offszn_apparel/" target="_blank" rel="noopener noreferrer">Follow along <span aria-hidden="true">&nbsp;↗</span></a></div>
+  </section>
+</main>
+<footer class="footerline"><span>© <span id="year">2026</span> OFF SZN APPAREL</span><span>JUST GETTING STARTED</span><a href="mailto:contact.offsznapparel@gmail.com">CONTACT ↗</a></footer>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
