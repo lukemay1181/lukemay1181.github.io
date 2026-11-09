@@ -70,6 +70,23 @@ main{flex:1;display:flex;flex-direction:column}
 .bottom-meta span:last-child{text-align:right}
 .footer{min-height:67px;padding:18px clamp(18px,3.3vw,56px);display:flex;align-items:center;justify-content:space-between;gap:18px;background:#f2f0e9;color:#474640;font-size:9px;letter-spacing:.15em;text-transform:uppercase;line-height:1.65}
 .footer a{text-decoration:none;border-bottom:1px solid rgba(71,70,64,.5)}
+
+/* Unobtrusive top-left navigation: no promotional links on the wall. */
+.menu-wrap{position:relative;z-index:30;flex:0 0 auto}
+.menu-toggle{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:43px;height:43px;padding:8px;background:transparent;border:1px solid rgba(245,242,235,.3);color:#f1eee7}
+.menu-toggle span{display:block;width:20px;height:1.5px;background:currentColor;transition:transform .2s,opacity .2s}
+.menu-toggle[aria-expanded="true"] span:first-child{transform:translateY(6.5px) rotate(45deg)}
+.menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+.menu-toggle[aria-expanded="true"] span:last-child{transform:translateY(-6.5px) rotate(-45deg)}
+.menu-panel{position:absolute;top:calc(100% + 12px);left:0;min-width:218px;display:flex;flex-direction:column;gap:0;padding:10px;background:rgba(42,41,38,.98);box-shadow:0 18px 45px #0006;border:1px solid #ffffff35}
+.menu-panel[hidden]{display:none}
+.menu-panel a{font-size:11px;text-transform:uppercase;text-decoration:none;letter-spacing:.14em;padding:14px 13px;border-bottom:1px solid #ffffff22;white-space:nowrap}
+.menu-panel a:last-child{border-bottom:0}
+.menu-panel a:hover,.menu-panel a:focus-visible{background:#ffffff15}
+.site-header{justify-content:flex-start}
+.site-header .brand{margin:0 auto;transform:translateX(-21px);align-items:center;text-align:center}
+.site-header .header-right{display:none}
+@media(max-width:680px){.site-header .brand{transform:translateX(-21px)}.menu-toggle{width:42px;height:42px}.menu-panel{min-width:205px}}
 /* Keep the gallery a single row until it becomes a one-at-a-time swipe carousel. */
 @media (max-width:850px) and (min-width:681px){.gallery{gap:0;padding:0 10px}.shirt-button{top:160px;width:min(98%,220px)}.station-label{left:7%;right:7%;font-size:8px}.wall-top span{font-size:8px}}
 @media (max-width:680px){
@@ -101,12 +118,20 @@ main{flex:1;display:flex;flex-direction:column}
 <a class="skip" href="#gallery">Skip to shirts</a>
 <div class="site">
   <header class="site-header">
+    <div class="menu-wrap">
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation menu" aria-controls="menu-panel" aria-expanded="false"><span></span><span></span><span></span></button>
+      <nav class="menu-panel" id="menu-panel" aria-label="Site navigation" hidden>
+        <a href="#gallery">The collection</a>
+        <a href="https://www.instagram.com/offszn_apparel/" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+        <a href="mailto:contact.offsznapparel@gmail.com">Contact ↗</a>
+      </nav>
+    </div>
     <a href="#top" class="brand" aria-label="OFF SZN Lifting Club home"><span class="brand-name"><span class="brand-star">✧</span>OFF SZN</span><span class="brand-sub">LIFTING CLUB</span></a>
-    <div class="header-right"><span class="header-status">A new season is coming</span><a class="header-link" href="https://www.instagram.com/offszn_apparel/" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div>
+
   </header>
   <main id="top">
     <section class="wall" aria-label="OFF SZN first collection coming soon">
-      <div class="wall-top"><span>OFF SZN / 001</span><span>Move closer to explore</span></div>
+
       <div class="gallery" id="gallery" role="region" aria-label="Three OFF SZN shirts" tabindex="0">
 <article class="station" data-index="0" aria-label="Midnight black OFF SZN T-shirt">
       <span class="light-beam" aria-hidden="true"></span>
@@ -210,13 +235,20 @@ main{flex:1;display:flex;flex-direction:column}
         <div class="slide-indicator"><span id="counter" aria-live="polite">01 / 03</span><span class="slide-dots" aria-hidden="true"><span class="current"></span><span></span><span></span></span></div>
         <button class="arrow" id="next" type="button" aria-label="Next shirt">›</button>
       </nav>
-      <div class="bottom-meta"><span>THE FIRST COLLECTION / COMING SOON</span><span>Wear what moves you.</span></div>
+
     </section>
   </main>
-  <footer class="footer"><span>© <span id="year">2026</span> OFF SZN</span><span class="footer-center">THE SEASON NEVER ENDS.</span><a href="mailto:contact.offsznapparel@gmail.com">CONTACT ↗</a></footer>
+
 </div>
 <script>
 (() => {
+  const menuToggle=document.getElementById('menu-toggle');
+  const menuPanel=document.getElementById('menu-panel');
+  function setMenu(open){menuPanel.hidden=!open;menuToggle.setAttribute('aria-expanded',String(open));menuToggle.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');}
+  menuToggle.addEventListener('click',()=>setMenu(menuPanel.hidden));
+  document.addEventListener('click',e=>{if(!e.target.closest('.menu-wrap'))setMenu(false);});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!menuPanel.hidden){setMenu(false);menuToggle.focus();}});
+  menuPanel.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
   const gallery = document.getElementById('gallery');
   const stations = [...gallery.querySelectorAll('.station')];
   const mobile = matchMedia('(max-width: 680px)');
