@@ -1,96 +1,323 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0f0f0f" />
-  <meta name="description" content="OFF SZN Lifting Club — Wear what moves you. Coming soon." />
-  <title>OFF SZN — Wear What Moves You</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet" />
-  <style>
-    :root { color-scheme: dark; --ink: #0b0b0b; --cream: #f0eae0; --muted: #bfb8ae; --line: rgba(241,235,222,.28); }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { margin: 0; background: var(--ink); color: var(--cream); font-family: 'DM Sans', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-    a { color: inherit; }
-    button, a { -webkit-tap-highlight-color: transparent; }
-    a:focus-visible { outline: 2px solid var(--cream); outline-offset: 5px; }
-    .skip { position: absolute; left: 8px; top: -50px; z-index: 99; background: var(--cream); color: var(--ink); padding: 10px 16px; }
-    .skip:focus { top: 8px; }
-    .canvas { min-height: 100svh; position: relative; overflow: hidden; isolation: isolate; display: flex; flex-direction: column; }
-    /* The live Lovable site's wall-and-shirts photograph is used as the primary artwork. */
-    .artwork { position: absolute; inset: 0; z-index: -3; overflow: hidden; background: #55524b; }
-    .artwork:before { content: ''; display: block; position: absolute; inset: 0; background: radial-gradient(circle at 49% 35%, #77736c 0%, #4a4843 48%, #211f1d 100%); }
-    .artwork img { width: 100%; height: 100%; object-fit: cover; object-position: center 46%; display: block; position: absolute; inset: 0; }
-    .artwork svg { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
-    .canvas:before { content: ''; position: absolute; inset: 0; z-index: -2; background: linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.04) 23%, rgba(0,0,0,.12) 53%, rgba(0,0,0,.70) 100%); pointer-events: none; }
-    .canvas:after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(0,0,0,.2),transparent 26%,transparent 76%,rgba(0,0,0,.2)); pointer-events: none; }
-    .top { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: clamp(22px, 3vw, 48px) clamp(20px, 5vw, 85px); }
-    .brand { text-decoration: none; display: inline-flex; align-items: flex-start; gap: 10px; line-height: 1; }
-    .brand-mark { font-size: 28px; transform: translateY(-4px); }
-    .brand-type { display: flex; flex-direction: column; align-items: flex-start; }
-    .brand-name { font: 400 clamp(26px, 3.2vw, 43px)/.9 'Italiana', Georgia, serif; letter-spacing: -.075em; white-space: nowrap; }
-    .brand-label { margin-top: 7px; font-size: 8px; letter-spacing: .27em; font-weight: 700; }
-    .top-tag { text-transform: uppercase; letter-spacing: .28em; font-size: 10px; font-weight: 600; white-space: nowrap; }
-    .top-tag .dot { display: inline-block; width: 5px; height: 5px; margin-right: 10px; border-radius: 100%; background: var(--cream); vertical-align: 2px; }
-    .central-space { flex: 1; min-height: 49vh; }
-    .bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 36px; padding: 0 clamp(20px, 5vw, 85px) clamp(28px, 4.5vw, 64px); }
-    .eyebrow { margin: 0 0 14px; font-size: 10px; font-weight: 700; letter-spacing: .31em; text-transform: uppercase; }
-    .headline { margin: 0; font: 400 clamp(60px, 11vw, 172px)/.81 'Italiana', Georgia, serif; letter-spacing: -.075em; text-transform: uppercase; text-shadow: 0 2px 20px #0003; }
-    .subheading { margin: 24px 0 0; font-size: clamp(12px, 1vw, 15px); letter-spacing: .18em; text-transform: uppercase; font-weight: 600; }
-    .bottom-right { min-width: 160px; display: flex; flex-direction: column; gap: 14px; align-items: flex-end; text-align: right; padding-bottom: 3px; }
-    .bottom-right p { max-width: 250px; margin: 0; color: #ded8ce; font-size: 12px; line-height: 1.7; }
-    .social { display: inline-flex; text-decoration: none; border-bottom: 1px solid var(--cream); padding-bottom: 7px; font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-    .footerline { border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 16px clamp(20px, 5vw, 85px); font-size: 9px; letter-spacing: .2em; font-weight: 600; text-transform: uppercase; background: #121110; }
-    .footerline a { text-decoration: none; border-bottom: 1px solid #777; padding-bottom: 3px; }
-    @media (max-width: 720px) {
-      .canvas { min-height: 100svh; }
-      .artwork img { object-position: center 47%; }
-      .top { padding: 24px 23px; align-items: flex-start; }
-      .brand-name { font-size: 31px; }
-      .brand-mark { font-size: 23px; }
-      .top-tag { font-size: 8px; letter-spacing: .15em; padding-top: 6px; }
-      .central-space { min-height: 51vh; }
-      .bottom { padding: 0 23px 31px; display: block; }
-      .headline { font-size: clamp(65px, 15.1vw, 108px); line-height: .87; }
-      .subheading { font-size: 10px; margin-top: 20px; }
-      .bottom-right { margin-top: 24px; align-items: flex-start; text-align: left; gap: 8px; }
-      .bottom-right p { display: none; }
-      .footerline { padding: 16px 23px; letter-spacing: .09em; font-size: 8px; }
-    }
-    @media (prefers-reduced-motion: no-preference) { .bottom { animation: rise .75s ease-out both; } @keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } } }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0c0c0c" />
+<meta name="description" content="OFF SZN Lifting Club. Wear what moves you. First collection coming soon." />
+<title>OFF SZN — Coming Soon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet" />
+<style>
+:root{--ink:#0c0c0c;--cream:#eee8de;--muted:#b7b1a8;--line:rgba(241,235,222,.25);color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--cream);font-family:"DM Sans",Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}a:focus-visible,button:focus-visible{outline:2px solid #eee8de;outline-offset:5px}
+button{font:inherit} .skip{position:absolute;top:-80px;left:18px;z-index:30;padding:10px 14px;background:var(--cream);color:var(--ink)}.skip:focus{top:14px}
+.page{min-height:100vh;display:flex;flex-direction:column}
+.top{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px clamp(22px,5.8vw,94px);border-bottom:1px solid var(--line);background:#0b0b0b}
+.brand{display:flex;align-items:center;gap:13px;text-decoration:none;flex-shrink:0}
+.brand-star{font-size:30px;font-family:Georgia,serif;line-height:1}
+.brand-copy{display:flex;flex-direction:column;gap:1px}.brand-name{font:400 clamp(28px,3.2vw,43px)/1 "Italiana",Georgia,serif;white-space:nowrap;letter-spacing:-.045em}
+.brand-sub{font-size:9px;letter-spacing:.32em;font-weight:700}
+.top-right{text-align:right;display:flex;align-items:center;gap:18px;justify-content:flex-end;flex-wrap:wrap}
+.top-tag{font-weight:700;letter-spacing:.2em;font-size:10px;text-transform:uppercase;line-height:1.45}
+.top-tag:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#d7d2c5;margin-right:10px;vertical-align:2px}
+.top-cta{border:1px solid #85817a;border-radius:2px;padding:12px 16px;text-decoration:none;font-weight:700;font-size:10px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;transition:background .2s,color .2s}
+.top-cta:hover{background:var(--cream);color:#111}
+.intro{padding:clamp(34px,5vw,66px) clamp(22px,5.8vw,94px) clamp(22px,3vw,38px);display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,360px);gap:26px;align-items:end;background:radial-gradient(ellipse 80% 200% at 75% 20%,#1c1b19 0%,#0b0b0b 80%)}
+.eyebrow{font-size:10px;letter-spacing:.28em;font-weight:700;text-transform:uppercase;margin:0 0 17px;color:#ccc6bc}
+.intro h1{margin:0;font:400 clamp(58px,9.2vw,139px)/.97 "Italiana",Georgia,serif;letter-spacing:-.058em;text-transform:uppercase;max-width:100%;overflow-wrap:normal}
+.intro h1 span{display:block;white-space:nowrap}
+.intro-side{border-left:1px solid #4f4b45;padding-left:23px;padding-bottom:8px}
+.intro-side p{font-size:clamp(13px,1.25vw,16px);line-height:1.7;margin:0 0 18px;color:#d0cbc1}
+.hint{display:inline-flex;gap:10px;align-items:center;color:#b5aea3;text-transform:uppercase;letter-spacing:.18em;font-size:9px;font-weight:700;line-height:1.5}
+.hint svg{flex-shrink:0}
+.wall-section{position:relative;background:#121211}
+.wall-topline{padding:13px clamp(22px,5.8vw,94px);display:flex;align-items:center;justify-content:space-between;gap:20px;border-top:1px solid #504c47;border-bottom:1px solid #514e49;color:#c9c2b6;background:#1a1918;font-size:10px;font-weight:700;letter-spacing:.19em;text-transform:uppercase}
+.wall-topline span:last-child{color:#918c82}
+.wall-stage{position:relative;isolation:isolate;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,2vw,40px);padding:0 clamp(15px,4.6vw,72px);min-height:clamp(430px,42vw,565px);overflow:hidden;background:
+ radial-gradient(ellipse 90% 70% at 50% 65%,rgba(115,110,102,.16),transparent 80%),
+ linear-gradient(90deg,rgba(0,0,0,.33),transparent 23%,transparent 76%,rgba(0,0,0,.35)),
+ repeating-linear-gradient(0deg,transparent 0,transparent 158px,rgba(0,0,0,.1) 159px,rgba(255,255,255,.034) 160px,transparent 161px),
+ linear-gradient(110deg,#373530,#45413c 38%,#393630 75%,#282623)}
+.wall-stage:before{position:absolute;inset:0;z-index:-1;content:"";opacity:.35;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='3' seed='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.23'/%3E%3C/svg%3E")}
+.wall-stage:after{position:absolute;inset:0;z-index:5;pointer-events:none;content:"";box-shadow:inset 0 65px 65px -48px rgba(0,0,0,.6),inset 0 -90px 110px -80px #090908}
+.station{position:relative;min-width:0;min-height:clamp(430px,42vw,565px);isolation:isolate;display:flex;align-items:center;flex-direction:column}
+.station:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(0,0,0,.12);transform:translateX(-50%)}
+.fixture{position:absolute;z-index:4;top:0;left:50%;transform:translateX(-50%);height:88px;width:112px;pointer-events:none}
+.fixture-cord{position:absolute;left:50%;width:5px;height:28px;background:linear-gradient(90deg,#0b0b0b,#45413d,#090909);transform:translateX(-50%);top:0}
+.fixture-head{position:absolute;top:24px;left:50%;transform:translateX(-50%);height:22px;width:82px;border-radius:9px 9px 20px 20px;background:linear-gradient(90deg,#10100f,#55524d 27%,#23211f 60%,#0c0c0c);border-bottom:3px solid #161514;box-shadow:0 8px 16px #14120f99}
+.fixture-bulb{position:absolute;top:41px;left:50%;transform:translateX(-50%);width:31px;height:8px;background:#39372f;border-radius:0 0 50% 50%;box-shadow:0 0 0 rgba(255,236,193,0);transition:background .15s,box-shadow .2s}
+.fixture-halo{position:absolute;top:24px;left:50%;transform:translateX(-50%);width:160px;height:120px;border-radius:50%;background:radial-gradient(ellipse at 50% 30%,rgba(255,222,156,.35),transparent 61%);opacity:0;pointer-events:none;transition:opacity .16s}
+.light-beam{position:absolute;top:43px;left:50%;width:min(135%,435px);height:calc(100% - 52px);transform:translateX(-50%);z-index:-1;pointer-events:none;clip-path:polygon(47% 0%,53% 0%,98% 100%,2% 100%);background:linear-gradient(180deg,rgba(255,230,168,.27) 0%,rgba(247,222,176,.17) 44%,rgba(240,225,191,.075) 83%,transparent);opacity:0;mix-blend-mode:screen;transition:opacity .18s}
+.station.is-lit .light-beam{opacity:1}.station.is-lit .fixture-halo{opacity:1}.station.is-lit .fixture-bulb{background:#fff2c9;box-shadow:0 0 8px 4px rgba(255,227,163,.75),0 0 35px 14px rgba(255,219,147,.36)}
+.shirt-button{appearance:none;background:none;border:0;display:block;position:absolute;z-index:2;top:clamp(60px,7vw,86px);left:50%;transform:translateX(-50%);width:min(95%,345px);padding:0;cursor:pointer;filter:drop-shadow(10px 27px 15px rgba(0,0,0,.47)) brightness(.78);transition:transform .45s cubic-bezier(.2,.8,.2,1),filter .4s ease;transform-origin:center 22%}
+.shirt-svg{display:block;width:100%;height:auto}
+.station.is-lit .shirt-button{transform:translateX(-50%) translateY(-8px) scale(1.075);filter:drop-shadow(13px 32px 19px rgba(0,0,0,.68)) brightness(1.13)}
+.station-label{position:absolute;z-index:3;bottom:25px;left:5px;right:5px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid rgba(239,232,218,.3);padding-top:12px;text-shadow:0 1px 10px #000;font-size:10px;text-transform:uppercase;letter-spacing:.13em;pointer-events:none}
+.station-number{font-weight:700}.station-detail{color:#d0c7b7;font-size:9px}
+/* A single ignition animation is replayed only when a NEW station is activated. */
+.station.is-flickering .light-beam,.station.is-flickering .fixture-halo{animation:lamp-flicker .82s steps(1,end) both}
+.station.is-flickering .fixture-bulb{animation:bulb-flicker .82s steps(1,end) both}
+@keyframes lamp-flicker{0%{opacity:0}8%{opacity:1}13%{opacity:0}23%{opacity:1}31%{opacity:.09}38%{opacity:1}49%{opacity:.5}57%,100%{opacity:1}}
+@keyframes bulb-flicker{0%,13%,31%{background:#39372f;box-shadow:none}8%,23%,38%,49%,57%,100%{background:#fff2c9;box-shadow:0 0 8px 4px rgba(255,227,163,.75),0 0 35px 14px rgba(255,219,147,.36)}}
+.gallery-controls{display:none}
+.gallery-meta{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:17px clamp(22px,5.8vw,94px);border-bottom:1px solid var(--line);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#bfb9af}
+.gallery-meta p{margin:0;line-height:1.6}.gallery-meta strong{font-weight:700;color:#ede5d7}
+.foot{display:flex;justify-content:space-between;gap:24px;align-items:center;padding:26px clamp(22px,5.8vw,94px);font-size:10px;line-height:1.6;text-transform:uppercase;letter-spacing:.15em;color:#bdb5a9}
+.foot a{text-decoration:none;border-bottom:1px solid rgba(241,235,222,.6);padding-bottom:4px;white-space:nowrap}
+@media (max-width:1040px){.intro h1{font-size:clamp(54px,8.2vw,94px)}.station-label{font-size:9px}.station-detail{font-size:8px}.shirt-button{width:min(104%,330px)}}
+@media (max-width:760px){
+ .top{padding:18px 20px;gap:12px}.brand-star{font-size:23px}.brand-name{font-size:30px}.brand-sub{font-size:8px}.top-tag{display:none}.top-cta{font-size:9px;letter-spacing:.07em;padding:10px 11px}
+ .intro{padding:35px 22px 27px;display:block}.intro h1{font-size:clamp(61px,15vw,108px);line-height:.97}.intro-side{margin-top:17px;border-left:0;border-top:1px solid #524d46;padding:15px 0 0}.intro-side p{font-size:13px;margin-bottom:10px}.eyebrow{font-size:9px;margin-bottom:12px}
+ .wall-topline{padding:13px 22px;font-size:9px;letter-spacing:.11em}.wall-topline span:last-child{display:none}
+ .wall-stage{display:flex;align-items:stretch;gap:0;padding:0;min-height:clamp(480px,145vw,610px);overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;scroll-padding-inline:0;touch-action:pan-x;}
+ .wall-stage::-webkit-scrollbar{display:none}
+ .station{flex:0 0 100%;width:100%;min-height:clamp(480px,145vw,610px);scroll-snap-align:center;scroll-snap-stop:always}
+ .shirt-button{top:clamp(73px,22vw,102px);width:min(78vw,332px)}
+ .fixture{height:88px}.light-beam{width:min(115vw,440px)}
+ .station-label{left:23px;right:23px;bottom:26px;font-size:11px;letter-spacing:.15em}.station-detail{font-size:9px}
+ .gallery-controls{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 22px;border-bottom:1px solid #4b4641;background:#171614}
+ .arrow-button{width:42px;height:42px;border:1px solid #696159;background:transparent;color:var(--cream);border-radius:50%;font-size:22px;display:grid;place-items:center;cursor:pointer}
+ .arrow-button:disabled{opacity:.35;cursor:default}
+ .slide-status{display:flex;align-items:center;gap:12px;color:#ddd5c9;font-size:11px;font-weight:700;letter-spacing:.2em}
+ .dots{display:flex;gap:6px}.dot-indicator{height:5px;width:5px;border-radius:50%;background:#5a5752;transition:background .2s,width .2s}.dot-indicator.active{width:19px;border-radius:5px;background:#e6dccd}
+ .gallery-meta{padding:14px 22px;align-items:flex-start}.gallery-meta p:last-child{display:none}
+ .foot{padding:25px 22px;flex-wrap:wrap;gap:14px;font-size:9px}
+}
+@media (max-width:380px){.top-cta{padding:9px 8px}.brand-name{font-size:26px}.brand-star{font-size:20px}.intro h1{font-size:14.1vw}.station-detail{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.station.is-flickering .light-beam,.station.is-flickering .fixture-halo,.station.is-flickering .fixture-bulb{animation:none}.shirt-button,.light-beam,.fixture-halo,.fixture-bulb{transition:none}}
+</style>
 </head>
 <body>
-<a href="#main" class="skip">Skip to content</a>
-<main id="main" class="canvas">
-  <div class="artwork" aria-hidden="true">
-    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs><pattern id="grain" width="85" height="85" patternUnits="userSpaceOnUse"><path d="M0 0h85v85H0z" fill="#62605b"/><path d="M0 51h85M12 0v85" stroke="#8b8880" stroke-width=".7" opacity=".2"/></pattern><linearGradient id="cloth"><stop stop-color="#101010"/><stop offset=".46" stop-color="#343433"/><stop offset="1" stop-color="#111111"/></linearGradient><filter id="shadow"><feDropShadow dx="12" dy="17" stdDeviation="20" flood-opacity=".55"/></filter></defs>
-      <path fill="url(#grain)" d="M0 0h1440v900H0z"/><path d="M0 340h1440M450 0v900M1010 0v900" stroke="#2d2b29" stroke-width="3" opacity=".2"/>
-      <path d="M0 210h1440" stroke="#191919" stroke-width="14"/><g stroke="#b5b0a6" stroke-width="4" fill="none"><path d="M405 210v84m0 0l-26 15m26-15l26 15M727 210v84m0 0l-26 15m26-15l26 15M1050 210v84m0 0l-26 15m26-15l26 15"/></g>
-      <g filter="url(#shadow)"><path d="M316 305l-80 46-78 166 109 44 48-73v286h181V488l48 73 109-44-78-166-80-46-35 18h-108z" fill="url(#cloth)"/><path d="M648 305l-80 46-78 166 109 44 48-73v286h181V488l48 73 109-44-78-166-80-46-35 18H683z" fill="#c7c3ba"/><path d="M980 305l-80 46-78 166 109 44 48-73v286h181V488l48 73 109-44-78-166-80-46-35 18h-108z" fill="url(#cloth)"/></g>
-      <g font-family="Georgia,serif" font-size="42" fill="#e5dfd1" text-anchor="middle"><text x="405" y="455">OFF SZN</text><text x="1050" y="455">OFF SZN</text></g><text x="727" y="455" fill="#2e2d2a" font-size="42" font-family="Georgia,serif" text-anchor="middle">OFF SZN</text>
-    </svg>
-    <!-- Original Lovable photo is linked, not copied: the fallback above works offline. -->
-    <img src="https://fandom-offseason-threads.lovable.app/__l5e/assets-v1/5ce6800f-434f-4ea0-b4d0-113bd6073832/rack-wall.jpg" alt="" />
-  </div>
-  <header class="top">
-    <a class="brand" href="#main" aria-label="OFF SZN home">
-      <span class="brand-mark" aria-hidden="true">✧</span>
-      <span class="brand-type"><span class="brand-name">OFF SZN</span><span class="brand-label">LIFTING CLUB</span></span>
-    </a>
-    <div class="top-tag"><span class="dot"></span> A NEW SEASON IS COMING</div>
-  </header>
-  <div class="central-space" aria-hidden="true"></div>
-  <section class="bottom" aria-label="Coming soon">
-    <div class="bottom-left"><p class="eyebrow">OFF SZN / LIFTING CLUB</p><h1 class="headline">COMING<br>SOON.</h1><p class="subheading">Wear what moves you.</p></div>
-    <div class="bottom-right"><p>Built for the days that don't come with an off-season.</p><a class="social" href="https://www.instagram.com/offszn_apparel/" target="_blank" rel="noopener noreferrer">Follow along <span aria-hidden="true">&nbsp;↗</span></a></div>
-  </section>
+<a class="skip" href="#main">Skip to shirts</a>
+<div class="page">
+<header class="top">
+ <a class="brand" href="#top" aria-label="OFF SZN home"><span class="brand-star" aria-hidden="true">✧</span><span class="brand-copy"><span class="brand-name">OFF SZN</span><span class="brand-sub">LIFTING CLUB</span></span></a>
+ <div class="top-right"><span class="top-tag">A NEW SEASON IS COMING</span><a class="top-cta" href="https://www.instagram.com/offszn_apparel/" target="_blank" rel="noopener noreferrer">FOLLOW THE DROP ↗</a></div>
+</header>
+<main id="main">
+ <section class="intro" id="top" aria-labelledby="main-title">
+  <div><p class="eyebrow">OFF SZN / THE FIRST DROP</p><h1 id="main-title"><span>COMING</span><span>SOON.</span></h1></div>
+  <div class="intro-side"><p>Built for the days that don't come with an off-season.<br>Wear what moves you.</p><span class="hint"><svg width="20" height="18" viewBox="0 0 20 18" fill="none" aria-hidden="true"><path d="M10 0v16M3 10l7 7 7-7" stroke="currentColor" stroke-width="1.5"/></svg><span class="desktop-instruction">Hover over a shirt to turn on its light.</span><span class="mobile-instruction" hidden>Swipe to explore the collection.</span></span></div>
+ </section>
+ <section class="wall-section" aria-label="OFF SZN shirt collection">
+   <div class="wall-topline"><span>THE WALL / COLLECTION 001</span><span>THREE PIECES. ONE MINDSET.</span></div>
+   <div class="wall-stage" id="wall-stage" aria-label="Swipe between three OFF SZN shirts" tabindex="0">
+<article class="station" data-index="0" aria-label="MIDNIGHT OFF SZN t-shirt">
+   <span class="light-beam" aria-hidden="true"></span>
+   <span class="fixture" aria-hidden="true"><span class="fixture-cord"></span><span class="fixture-head"></span><span class="fixture-bulb"></span><span class="fixture-halo"></span></span>
+   <button class="shirt-button" type="button" aria-label="Light up the midnight shirt" aria-pressed="false">
+      <svg class="shirt-svg" viewBox="0 0 320 389" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="fabric01" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#08090a"/><stop offset=".18" stop-color="#303134"/><stop offset=".39" stop-color="#151617"/><stop offset=".65" stop-color="#303134"/><stop offset=".88" stop-color="#151617"/><stop offset="1" stop-color="#08090a"/></linearGradient>
+    <linearGradient id="fold01" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4f5051" stop-opacity=".32"/><stop offset=".6" stop-color="#151617" stop-opacity="0"/><stop offset="1" stop-color="#08090a" stop-opacity=".4"/></linearGradient>
+    <filter id="grain01" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".47" numOctaves="2" seed="4" stitchTiles="stitch" result="noise"/><feColorMatrix in="noise" type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".075"/></feComponentTransfer></filter>
+    <clipPath id="shape01"><path d="M114 48 80 57 Q58 64 43 88 L11 145 Q7 153 18 158 L61 177 Q68 180 74 167 L89 144 84 334 Q84 343 96 344 L224 344 Q235 343 236 334 L231 144 246 167 Q252 180 260 177 L303 158 Q313 153 307 145 L276 88 Q262 65 238 57 L205 48 Q185 64 160 65 Q134 64 114 48Z"/></clipPath>
+  </defs>
+  <path d="M147 40 Q148 26 163 24 Q171 24 170 16 Q168 8 160 8" fill="none" stroke="#302f2b" stroke-width="5" stroke-linecap="round"/>
+  <path d="M160 28 119 53 M160 28 201 53" stroke="#262421" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path d="M114 48 80 57 Q58 64 43 88 L11 145 Q7 153 18 158 L61 177 Q68 180 74 167 L89 144 84 334 Q84 343 96 344 L224 344 Q235 343 236 334 L231 144 246 167 Q252 180 260 177 L303 158 Q313 153 307 145 L276 88 Q262 65 238 57 L205 48 Q185 64 160 65 Q134 64 114 48Z" fill="url(#fabric01)" stroke="#08090a" stroke-width="2"/>
+  <g clip-path="url(#shape01)">
+    <path d="M92 61 Q115 107 110 345 L144 345 Q148 170 130 72Z" fill="url(#fold01)" opacity=".5"/>
+    <path d="M212 55 Q184 136 208 344 L239 344 Q224 146 238 66Z" fill="#08090a" opacity=".15"/>
+    <path d="M76 100 Q84 171 76 220 M237 102 Q234 193 242 251 M105 96 Q116 196 110 339 M205 93 Q201 202 213 338" fill="none" stroke="#4f5051" opacity=".13" stroke-width="6"/>
+    <path d="M73 333 Q155 342 239 333 M24 154 61 170 M261 170 299 154" fill="none" stroke="#56565a" stroke-width="1.7" opacity=".7"/>
+    <path d="M74 326 Q157 333 237 326" fill="none" stroke="#08090a" opacity=".65" stroke-width="2"/>
+    <path d="M79 65 Q69 88 65 135 M241 66 Q254 91 255 135" fill="none" stroke="#56565a" opacity=".55" stroke-width="2"/>
+    <rect x="0" y="45" width="320" height="310" filter="url(#grain01)" opacity=".7" />
+  </g>
+  <path d="M117 48 Q158 95 203 48 L190 45 Q162 71 130 46Z" fill="#08090a" stroke="#56565a" stroke-width="1.5"/>
+  <path d="M126 49 Q159 77 194 49" stroke="#56565a" stroke-width="2.5" fill="none" opacity=".7"/>
+  <g fill="#dfd9cc" text-anchor="middle">
+    <text x="160" y="169" font-family="Georgia, 'Times New Roman', serif" font-size="34" letter-spacing="-2.4">OFF</text>
+    <text x="160" y="201" font-family="Georgia, 'Times New Roman', serif" font-size="35" letter-spacing="-2.1">SZN</text>
+    <path d="M126 144 Q129 158 140 161 Q129 164 126 177 Q124 164 112 161 Q124 157 126 144Z" transform="translate(7 -10) scale(.54)"/>
+  </g>
+</svg>
+   </button>
+   <div class="station-label"><span class="station-number">01 / MIDNIGHT</span><span class="station-detail">BLACK / CORE</span></div>
+ </article>
+<article class="station" data-index="1" aria-label="BONE OFF SZN t-shirt">
+   <span class="light-beam" aria-hidden="true"></span>
+   <span class="fixture" aria-hidden="true"><span class="fixture-cord"></span><span class="fixture-head"></span><span class="fixture-bulb"></span><span class="fixture-halo"></span></span>
+   <button class="shirt-button" type="button" aria-label="Light up the bone shirt" aria-pressed="false">
+      <svg class="shirt-svg" viewBox="0 0 320 389" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="fabric02" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#77756e"/><stop offset=".18" stop-color="#d9d5cb"/><stop offset=".39" stop-color="#c2beb4"/><stop offset=".65" stop-color="#d9d5cb"/><stop offset=".88" stop-color="#c2beb4"/><stop offset="1" stop-color="#77756e"/></linearGradient>
+    <linearGradient id="fold02" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0eae0" stop-opacity=".32"/><stop offset=".6" stop-color="#c2beb4" stop-opacity="0"/><stop offset="1" stop-color="#77756e" stop-opacity=".4"/></linearGradient>
+    <filter id="grain02" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".47" numOctaves="2" seed="4" stitchTiles="stitch" result="noise"/><feColorMatrix in="noise" type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".075"/></feComponentTransfer></filter>
+    <clipPath id="shape02"><path d="M114 48 80 57 Q58 64 43 88 L11 145 Q7 153 18 158 L61 177 Q68 180 74 167 L89 144 84 334 Q84 343 96 344 L224 344 Q235 343 236 334 L231 144 246 167 Q252 180 260 177 L303 158 Q313 153 307 145 L276 88 Q262 65 238 57 L205 48 Q185 64 160 65 Q134 64 114 48Z"/></clipPath>
+  </defs>
+  <path d="M147 40 Q148 26 163 24 Q171 24 170 16 Q168 8 160 8" fill="none" stroke="#302f2b" stroke-width="5" stroke-linecap="round"/>
+  <path d="M160 28 119 53 M160 28 201 53" stroke="#262421" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path d="M114 48 80 57 Q58 64 43 88 L11 145 Q7 153 18 158 L61 177 Q68 180 74 167 L89 144 84 334 Q84 343 96 344 L224 344 Q235 343 236 334 L231 144 246 167 Q252 180 260 177 L303 158 Q313 153 307 145 L276 88 Q262 65 238 57 L205 48 Q185 64 160 65 Q134 64 114 48Z" fill="url(#fabric02)" stroke="#77756e" stroke-width="2"/>
+  <g clip-path="url(#shape02)">
+    <path d="M92 61 Q115 107 110 345 L144 345 Q148 170 130 72Z" fill="url(#fold02)" opacity=".5"/>
+    <path d="M212 55 Q184 136 208 344 L239 344 Q224 146 238 66Z" fill="#77756e" opacity=".15"/>
+    <path d="M76 100 Q84 171 76 220 M237 102 Q234 193 242 251 M105 96 Q116 196 110 339 M205 93 Q201 202 213 338" fill="none" stroke="#f0eae0" opacity=".13" stroke-width="6"/>
+    <path d="M73 333 Q155 342 239 333 M24 154 61 170 M261 170 299 154" fill="none" stroke="#a09c93" stroke-width="1.7" opacity=".7"/>
+    <path d="M74 326 Q157 333 237 326" fill="none" stroke="#77756e" opacity=".65" stroke-width="2"/>
+    <path d="M79 65 Q69 88 65 135 M241 66 Q254 91 255 135" fill="none" stroke="#a09c93" opacity=".55" stroke-width="2"/>
+    <rect x="0" y="45" width="320" height="310" filter="url(#grain02)" opacity=".7" />
+  </g>
+  <path d="M117 48 Q158 95 203 48 L190 45 Q162 71 130 46Z" fill="#77756e" stroke="#a09c93" stroke-width="1.5"/>
+  <path d="M126 49 Q159 77 194 49" stroke="#a09c93" stroke-width="2.5" fill="none" opacity=".7"/>
+  <g fill="#242323" text-anchor="middle">
+    <text x="160" y="169" font-family="Georgia, 'Times New Roman', serif" font-size="34" letter-spacing="-2.4">OFF</text>
+    <text x="160" y="201" font-family="Georgia, 'Times New Roman', serif" font-size="35" letter-spacing="-2.1">SZN</text>
+    <path d="M126 144 Q129 158 140 161 Q129 164 126 177 Q124 164 112 161 Q124 157 126 144Z" transform="translate(7 -10) scale(.54)"/>
+  </g>
+</svg>
+   </button>
+   <div class="station-label"><span class="station-number">02 / BONE</span><span class="station-detail">BONE / CORE</span></div>
+ </article>
+<article class="station" data-index="2" aria-label="GRAPHITE OFF SZN t-shirt">
+   <span class="light-beam" aria-hidden="true"></span>
+   <span class="fixture" aria-hidden="true"><span class="fixture-cord"></span><span class="fixture-head"></span><span class="fixture-bulb"></span><span class="fixture-halo"></span></span>
+   <button class="shirt-button" type="button" aria-label="Light up the graphite shirt" aria-pressed="false">
+      <svg class="shirt-svg" viewBox="0 0 320 389" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="fabric03" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1f2020"/><stop offset=".18" stop-color="#646261"/><stop offset=".39" stop-color="#414040"/><stop offset=".65" stop-color="#646261"/><stop offset=".88" stop-color="#414040"/><stop offset="1" stop-color="#1f2020"/></linearGradient>
+    <linearGradient id="fold03" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#92908a" stop-opacity=".32"/><stop offset=".6" stop-color="#414040" stop-opacity="0"/><stop offset="1" stop-color="#1f2020" stop-opacity=".4"/></linearGradient>
+    <filter id="grain03" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".47" numOctaves="2" seed="4" stitchTiles="stitch" result="noise"/><feColorMatrix in="noise" type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".075"/></feComponentTransfer></filter>
+    <clipPath id="shape03"><path d="M114 48 80 57 Q58 64 43 88 L11 145 Q7 153 18 158 L61 177 Q68 180 74 167 L89 144 84 334 Q84 343 96 344 L224 344 Q235 343 236 334 L231 144 246 167 Q252 180 260 177 L303 158 Q313 153 307 145 L276 88 Q262 65 238 57 L205 48 Q185 64 160 65 Q134 64 114 48Z"/></clipPath>
+  </defs>
+  <path d="M147 40 Q148 26 163 24 Q171 24 170 16 Q168 8 160 8" fill="none" stroke="#302f2b" stroke-width="5" stroke-linecap="round"/>
+  <path d="M160 28 119 53 M160 28 201 53" stroke="#262421" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path d="M114 48 80 57 Q58 64 43 88 L11 145 Q7 153 18 158 L61 177 Q68 180 74 167 L89 144 84 334 Q84 343 96 344 L224 344 Q235 343 236 334 L231 144 246 167 Q252 180 260 177 L303 158 Q313 153 307 145 L276 88 Q262 65 238 57 L205 48 Q185 64 160 65 Q134 64 114 48Z" fill="url(#fabric03)" stroke="#1f2020" stroke-width="2"/>
+  <g clip-path="url(#shape03)">
+    <path d="M92 61 Q115 107 110 345 L144 345 Q148 170 130 72Z" fill="url(#fold03)" opacity=".5"/>
+    <path d="M212 55 Q184 136 208 344 L239 344 Q224 146 238 66Z" fill="#1f2020" opacity=".15"/>
+    <path d="M76 100 Q84 171 76 220 M237 102 Q234 193 242 251 M105 96 Q116 196 110 339 M205 93 Q201 202 213 338" fill="none" stroke="#92908a" opacity=".13" stroke-width="6"/>
+    <path d="M73 333 Q155 342 239 333 M24 154 61 170 M261 170 299 154" fill="none" stroke="#7b7975" stroke-width="1.7" opacity=".7"/>
+    <path d="M74 326 Q157 333 237 326" fill="none" stroke="#1f2020" opacity=".65" stroke-width="2"/>
+    <path d="M79 65 Q69 88 65 135 M241 66 Q254 91 255 135" fill="none" stroke="#7b7975" opacity=".55" stroke-width="2"/>
+    <rect x="0" y="45" width="320" height="310" filter="url(#grain03)" opacity=".7" />
+  </g>
+  <path d="M117 48 Q158 95 203 48 L190 45 Q162 71 130 46Z" fill="#1f2020" stroke="#7b7975" stroke-width="1.5"/>
+  <path d="M126 49 Q159 77 194 49" stroke="#7b7975" stroke-width="2.5" fill="none" opacity=".7"/>
+  <g fill="#eae3d6" text-anchor="middle">
+    <text x="160" y="169" font-family="Georgia, 'Times New Roman', serif" font-size="34" letter-spacing="-2.4">OFF</text>
+    <text x="160" y="201" font-family="Georgia, 'Times New Roman', serif" font-size="35" letter-spacing="-2.1">SZN</text>
+    <path d="M126 144 Q129 158 140 161 Q129 164 126 177 Q124 164 112 161 Q124 157 126 144Z" transform="translate(7 -10) scale(.54)"/>
+  </g>
+</svg>
+   </button>
+   <div class="station-label"><span class="station-number">03 / GRAPHITE</span><span class="station-detail">CHARCOAL / CORE</span></div>
+ </article>
+   </div>
+   <div class="gallery-controls" aria-label="Shirt carousel controls">
+     <button type="button" class="arrow-button" id="previous" aria-label="Previous shirt">←</button>
+     <span class="slide-status"><span id="slide-count">01 / 03</span><span class="dots" aria-hidden="true"><span class="dot-indicator active"></span><span class="dot-indicator"></span><span class="dot-indicator"></span></span></span>
+     <button type="button" class="arrow-button" id="next" aria-label="Next shirt">→</button>
+   </div>
+   <div class="gallery-meta"><p><strong>OFF SZN LIFTING CLUB</strong> / THE FIRST COLLECTION</p><p>DESIGNED FOR THE IN-BETWEEN.</p></div>
+ </section>
 </main>
-<footer class="footerline"><span>© <span id="year">2026</span> OFF SZN APPAREL</span><span>JUST GETTING STARTED</span><a href="mailto:contact.offsznapparel@gmail.com">CONTACT ↗</a></footer>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<footer class="foot"><span>© <span id="year">2026</span> OFF SZN APPAREL</span><span>THE SEASON NEVER ENDS.</span><a href="mailto:contact.offsznapparel@gmail.com">CONTACT ↗</a></footer>
+</div>
+<script>
+(() => {
+ const stage=document.getElementById('wall-stage');
+ const stations=[...stage.querySelectorAll('.station')];
+ const count=document.getElementById('slide-count');
+ const dots=[...document.querySelectorAll('.dot-indicator')];
+ const previous=document.getElementById('previous');
+ const next=document.getElementById('next');
+ const mobile=window.matchMedia('(max-width: 760px)');
+ const motionReduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+ let active=-1;
+ let scrollRaf=0;
+ const flickerTimers=new WeakMap();
+ document.getElementById('year').textContent=String(new Date().getFullYear());
+ function clearLights(){
+  stations.forEach(station=>{
+   station.classList.remove('is-lit','is-flickering');
+   window.clearTimeout(flickerTimers.get(station));
+   station.querySelector('.shirt-button').setAttribute('aria-pressed','false');
+  });
+  active=-1;
+ }
+ function activate(index){
+  if(index<0||index>=stations.length||index===active)return;
+  clearLights();
+  active=index;
+  const station=stations[index];
+  station.classList.add('is-lit');
+  station.querySelector('.shirt-button').setAttribute('aria-pressed','true');
+  // Removing and re-adding the class forces a fresh, one-time ignition when the shirt changes.
+  if(!motionReduced.matches){
+   void station.offsetWidth;
+   station.classList.add('is-flickering');
+   flickerTimers.set(station,window.setTimeout(()=>{station.classList.remove('is-flickering');flickerTimers.delete(station);},860));
+  }
+ }
+ function updateIndicators(index){
+  count.textContent=String(index+1).padStart(2,'0')+' / 03';
+  dots.forEach((dot,i)=>dot.classList.toggle('active',i===index));
+  previous.disabled=index===0;
+  next.disabled=index===stations.length-1;
+ }
+ function closestIndex(){
+  const mid=stage.getBoundingClientRect().left+stage.clientWidth/2;
+  return stations.reduce((best,station,index)=>{
+   const rect=station.getBoundingClientRect();
+   const dist=Math.abs(rect.left+rect.width/2-mid);
+   return dist<best.dist?{index,dist}:best;
+  },{index:0,dist:Infinity}).index;
+ }
+ function syncMobile(){
+  if(!mobile.matches)return;
+  const index=closestIndex();
+  activate(index);
+  updateIndicators(index);
+ }
+ function goTo(index){
+  if(index<0||index>=stations.length)return;
+  const target=stations[index];
+  stage.scrollTo({left:target.offsetLeft-stage.offsetLeft,behavior:motionReduced.matches?'instant':'smooth'});
+  activate(index);
+  updateIndicators(index);
+ }
+ stations.forEach((station,index)=>{
+  const shirtButton=station.querySelector('.shirt-button');
+  shirtButton.addEventListener('pointerenter',e=>{if(!mobile.matches&&e.pointerType!=='touch')activate(index)});
+  shirtButton.addEventListener('pointerleave',e=>{if(!mobile.matches&&e.pointerType!=='touch')clearLights()});
+  station.addEventListener('focusin',()=>{if(!mobile.matches)activate(index)});
+  station.addEventListener('focusout',e=>{if(!mobile.matches&&!station.contains(e.relatedTarget))clearLights()});
+  shirtButton.addEventListener('click',()=>{if(mobile.matches)goTo(index);else activate(index)});
+ });
+ stage.addEventListener('scroll',()=>{
+  if(!mobile.matches)return;
+  cancelAnimationFrame(scrollRaf);
+  scrollRaf=requestAnimationFrame(syncMobile);
+ },{passive:true});
+ stage.addEventListener('keydown',e=>{
+  if(!mobile.matches)return;
+  if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
+   e.preventDefault();goTo(Math.min(stations.length-1,Math.max(0,closestIndex()+(e.key==='ArrowLeft'?-1:1))));
+  }
+ });
+ previous.addEventListener('click',()=>goTo(closestIndex()-1));
+ next.addEventListener('click',()=>goTo(closestIndex()+1));
+ mobile.addEventListener('change',()=>{
+  clearLights();
+  if(mobile.matches){
+   document.querySelector('.mobile-instruction').hidden=false;
+   document.querySelector('.desktop-instruction').hidden=true;
+   syncMobile();
+  }else{
+   document.querySelector('.mobile-instruction').hidden=true;
+   document.querySelector('.desktop-instruction').hidden=false;
+  }
+ });
+ if(mobile.matches){document.querySelector('.mobile-instruction').hidden=false;document.querySelector('.desktop-instruction').hidden=true;syncMobile()}
+ else clearLights();
+})();
+</script>
 </body>
 </html>
