@@ -1,339 +1,191 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#6f6c66">
-<meta name="description" content="OFF SZN Lifting Club. A new season is coming.">
-<title>OFF SZN — Lifting Club</title>
-<style>
-:root { --wall:#898782; --chalk:#f4f2ec; --charcoal:#1f1e1b; --ash:#bdbab2; --line:rgba(35,33,30,.28); color-scheme:light; }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0; background:#797772; color:var(--charcoal);font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-button,a{font:inherit}button{cursor:pointer}a{color:inherit}
-button:focus-visible,a:focus-visible{outline:2px solid #f5e2aa;outline-offset:5px}
-.skip{position:fixed;left:12px;top:-80px;z-index:100;background:white;padding:10px 16px}.skip:focus{top:12px}
-.site{min-height:100svh;display:flex;flex-direction:column}
-/* The quiet, thin showroom header is deliberately separate from the wall. */
-.site-header{height:80px; flex:0 0 auto;position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 clamp(18px,3.3vw,56px);border-bottom:1px solid rgba(243,241,235,.25);background:#55534e;color:#f1eee7}
-.brand{display:inline-flex;flex-direction:column;gap:3px;line-height:1;text-decoration:none;flex-shrink:0;min-width:0}
-.brand-name{font-family:Georgia,'Times New Roman',serif;font-size:clamp(26px,2.65vw,38px);letter-spacing:-.055em;white-space:nowrap;line-height:.95;font-weight:400}
-.brand-name .brand-star{display:inline-block;font-size:.65em;vertical-align:.18em;margin-right:-.07em}
-.brand-sub{font-size:8px;letter-spacing:.31em;margin-left:2px;font-weight:600}
-.header-right{display:flex;align-items:center;justify-content:flex-end;gap:clamp(14px,3vw,43px);min-width:0}
-.header-status{font-size:10px;font-weight:600;letter-spacing:.18em;white-space:nowrap;text-transform:uppercase}
-.header-status:before{content:'';display:inline-block;width:5px;height:5px;margin-right:9px;border-radius:50%;background:#efede8;vertical-align:2px}
-.header-link{text-decoration:none;font-size:10px;text-transform:uppercase;white-space:nowrap;letter-spacing:.16em;border-bottom:1px solid rgba(255,255,255,.7);padding-bottom:5px}
-.header-link:hover{opacity:.65}
-main{flex:1;display:flex;flex-direction:column}
-/* Concrete gets its own tactile surface; no promotional banners or giant text obscures the clothes. */
-.wall{position:relative;isolation:isolate;flex:1;display:flex;flex-direction:column;min-height:clamp(580px,calc(100svh - 148px),870px);overflow:hidden;background:linear-gradient(90deg,#777570,#928f89 48%,#76736d)}
-.wall:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:
- radial-gradient(ellipse 45% 65% at 15% 51%,rgba(243,242,232,.13),transparent 80%),
- radial-gradient(ellipse 48% 75% at 84% 48%,rgba(0,0,0,.11),transparent 88%),
- linear-gradient(180deg,rgba(255,255,255,.06),transparent 22%,transparent 84%,rgba(30,28,25,.15)),
- repeating-linear-gradient(0deg,transparent 0 224px,rgba(25,25,25,.13) 225px,rgba(255,255,255,.08) 226px,transparent 228px),
- url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.32' numOctaves='4' seed='8' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23noise)' opacity='.24'/%3E%3C/svg%3E"); background-size:auto,auto,auto,auto,240px 240px;mix-blend-mode:multiply;opacity:.82}
-.wall:after{content:'';position:absolute;inset:0;z-index:6;pointer-events:none;box-shadow:inset 0 55px 65px -55px #1d1b18,inset 0 -90px 90px -85px #1d1b18}
-.wall-top{position:relative;z-index:7;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:20px clamp(18px,3.3vw,56px) 0;color:#f2eee6;pointer-events:none}
-.wall-top span{font-size:9px;letter-spacing:.20em;text-transform:uppercase;font-weight:600;line-height:1.7;text-shadow:0 1px 8px rgba(0,0,0,.35)}
-.wall-top span:last-child{text-align:right}
-.gallery{flex:1;position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(4px,1.7vw,32px);padding:0 clamp(10px,3vw,54px);min-height:530px}
-.station{position:relative;isolation:isolate;min-width:0;min-height:530px}
-.station:before{content:'';position:absolute;top:28px;bottom:50px;left:50%;width:1px;background:rgba(0,0,0,.02);transform:translateX(-50%);pointer-events:none}
-/* Steel fixtures start off, then light their own shirt on hover / slide selection. */
-.fixture{position:absolute;z-index:4;top:16px;left:50%;width:112px;height:93px;transform:translateX(-50%);pointer-events:none}
-.fixture-wire{position:absolute;top:0;left:50%;height:35px;width:3px;transform:translateX(-50%);background:linear-gradient(90deg,#2b2927,#6e6b64,#232321)}
-.fixture-shade{position:absolute;top:30px;left:50%;height:25px;width:87px;transform:translateX(-50%);border-radius:11px 11px 18px 18px;background:linear-gradient(90deg,#252523,#77736c 23%,#373530 60%,#171715);box-shadow:0 5px 9px #22222240;border-bottom:3px solid #282723}
-.fixture-bulb{position:absolute;top:50px;left:50%;height:8px;width:32px;transform:translateX(-50%);border-radius:0 0 50% 50%;background:#2c2b27;box-shadow:none;transition:background .12s,box-shadow .12s}
-.fixture-glow{position:absolute;top:40px;left:50%;width:170px;height:118px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at 50% 12%,rgba(255,232,176,.44),rgba(249,220,160,.09) 55%,transparent 73%);opacity:0;transition:opacity .15s}
-.light-beam{position:absolute;top:70px;left:50%;width:min(129%,440px);height:calc(100% - 142px);transform:translateX(-50%);z-index:-1;pointer-events:none;clip-path:polygon(48% 0,52% 0,100% 100%,0 100%);background:linear-gradient(180deg,rgba(255,242,189,.39),rgba(255,230,167,.19) 55%,rgba(255,232,193,.025));mix-blend-mode:screen;opacity:0;transition:opacity .15s}
-.station.is-lit .fixture-bulb{background:#fff1c6;box-shadow:0 0 9px 4px rgba(255,232,179,.78),0 0 24px 13px rgba(255,225,156,.3)}
-.station.is-lit .fixture-glow{opacity:1}
-.station.is-lit .light-beam{opacity:1}
-/* The zoom applies ONLY to the shirt, not the wall or its lamp. */
-.shirt-button{position:absolute;top:clamp(147px,16vh,195px);left:50%;transform:translateX(-50%);width:min(95%,clamp(185px,20vw,305px));appearance:none;border:0;background:transparent;padding:0;z-index:3;cursor:pointer;filter:drop-shadow(10px 23px 13px rgba(0,0,0,.33)) brightness(.83);transition:transform .42s cubic-bezier(.2,.8,.2,1),filter .42s ease;transform-origin:50% 35%}
-.shirt-svg{display:block;width:100%;height:auto}
-.station.is-lit .shirt-button{transform:translateX(-50%) translateY(-7px) scale(1.065);filter:drop-shadow(14px 31px 20px rgba(0,0,0,.43)) brightness(1.08)}
-.shirt-button:focus-visible{outline-offset:8px}
-.station-label{position:absolute;z-index:5;left:9%;right:9%;bottom:45px;display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:9px;line-height:1.5;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:#f3efe7;text-shadow:0 1px 10px rgba(0,0,0,.45);border-top:1px solid rgba(246,244,234,.37);padding-top:12px;pointer-events:none}
-.station-label span:last-child{opacity:.75;font-weight:400;text-align:right}
-/* A single flicker animation plays at activation, then ends while the steady light stays on. */
-.station.is-flickering .light-beam,.station.is-flickering .fixture-glow{animation:lamp-flicker .76s steps(1,end) both}
-.station.is-flickering .fixture-bulb{animation:bulb-flicker .76s steps(1,end) both}
-@keyframes lamp-flicker {0%,7%{opacity:0}8%,15%{opacity:1}16%,23%{opacity:0}24%,36%{opacity:1}37%,44%{opacity:.14}45%,58%{opacity:1}59%,64%{opacity:.35}65%,100%{opacity:1}}
-@keyframes bulb-flicker{0%,7%,16%,23%,37%,44%,59%,64%{background:#2c2b27;box-shadow:none}8%,15%,24%,36%,45%,58%,65%,100%{background:#fff1c6;box-shadow:0 0 9px 4px rgba(255,232,179,.78),0 0 24px 13px rgba(255,225,156,.3)}}
-.gallery-controls{display:none}
-/* All informational text sits in its own strips. None overlaps the shirts. */
-.bottom-meta{position:relative;z-index:8;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px clamp(18px,3.3vw,56px);background:#77746e;border-top:1px solid rgba(255,255,255,.22);color:#f0ede5;font-size:9px;letter-spacing:.15em;line-height:1.6;text-transform:uppercase}
-.bottom-meta span:last-child{text-align:right}
-.footer{min-height:67px;padding:18px clamp(18px,3.3vw,56px);display:flex;align-items:center;justify-content:space-between;gap:18px;background:#f2f0e9;color:#474640;font-size:9px;letter-spacing:.15em;text-transform:uppercase;line-height:1.65}
-.footer a{text-decoration:none;border-bottom:1px solid rgba(71,70,64,.5)}
-
-/* Unobtrusive top-left navigation: no promotional links on the wall. */
-.menu-wrap{position:relative;z-index:30;flex:0 0 auto}
-.menu-toggle{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:43px;height:43px;padding:8px;background:transparent;border:1px solid rgba(245,242,235,.3);color:#f1eee7}
-.menu-toggle span{display:block;width:20px;height:1.5px;background:currentColor;transition:transform .2s,opacity .2s}
-.menu-toggle[aria-expanded="true"] span:first-child{transform:translateY(6.5px) rotate(45deg)}
-.menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
-.menu-toggle[aria-expanded="true"] span:last-child{transform:translateY(-6.5px) rotate(-45deg)}
-.menu-panel{position:absolute;top:calc(100% + 12px);left:0;min-width:218px;display:flex;flex-direction:column;gap:0;padding:10px;background:rgba(42,41,38,.98);box-shadow:0 18px 45px #0006;border:1px solid #ffffff35}
-.menu-panel[hidden]{display:none}
-.menu-panel a{font-size:11px;text-transform:uppercase;text-decoration:none;letter-spacing:.14em;padding:14px 13px;border-bottom:1px solid #ffffff22;white-space:nowrap}
-.menu-panel a:last-child{border-bottom:0}
-.menu-panel a:hover,.menu-panel a:focus-visible{background:#ffffff15}
-.site-header{justify-content:flex-start}
-.site-header .brand{margin:0 auto;transform:translateX(-21px);align-items:center;text-align:center}
-.site-header .header-right{display:none}
-@media(max-width:680px){.site-header .brand{transform:translateX(-21px)}.menu-toggle{width:42px;height:42px}.menu-panel{min-width:205px}}
-/* Keep the gallery a single row until it becomes a one-at-a-time swipe carousel. */
-@media (max-width:850px) and (min-width:681px){.gallery{gap:0;padding:0 10px}.shirt-button{top:160px;width:min(98%,220px)}.station-label{left:7%;right:7%;font-size:8px}.wall-top span{font-size:8px}}
-@media (max-width:680px){
- .site-header{height:71px;padding:0 18px;gap:8px}.brand-name{font-size:31px}.brand-sub{font-size:7px}.header-right{gap:14px}.header-status{display:none}.header-link{font-size:9px;letter-spacing:.1em}
- .wall{min-height:clamp(585px,calc(100svh - 164px),740px)}
- .wall-top{padding:16px 20px 0}.wall-top span{font-size:8px;letter-spacing:.13em}.wall-top span:last-child{display:none}
- .gallery{display:flex;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;touch-action:pan-x;gap:0;padding:0;flex:1;min-height:510px;scroll-padding:0;scroll-behavior:smooth}
- .gallery::-webkit-scrollbar{display:none}
- .station{flex:0 0 100%;width:100%;height:auto;min-height:510px;scroll-snap-align:center;scroll-snap-stop:always}
- .fixture{top:22px}.light-beam{top:80px;height:calc(100% - 132px);width:min(125vw,430px)}
- .shirt-button{top:clamp(115px,21vh,179px);width:min(77vw,335px);max-width:335px}
- .station-label{left:21px;right:21px;bottom:29px;font-size:10px}
- .gallery-controls{position:relative;z-index:9;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 20px 14px;color:#f2efe8}
- .arrow{width:44px;height:40px;display:grid;place-items:center;background:rgba(50,48,45,.15);border:1px solid rgba(255,255,255,.5);border-radius:0;color:#f1ede7;font-size:22px;line-height:1}
- .arrow:disabled{opacity:.3;cursor:default}
- .slide-indicator{display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:.20em;font-variant-numeric:tabular-nums}
- .slide-dots{display:flex;align-items:center;gap:6px}
- .slide-dots span{display:block;width:4px;height:4px;border-radius:50%;background:rgba(246,244,236,.38);transition:transform .18s,background .18s}
- .slide-dots span.current{background:#f6f3e9;transform:scale(1.45)}
- .bottom-meta{padding:12px 20px;gap:8px;font-size:8px;letter-spacing:.1em}.bottom-meta span:last-child{display:none}
- .footer{min-height:61px;padding:18px 20px;gap:14px;font-size:8px;letter-spacing:.1em}.footer-center{display:none}
-}
-@media (min-width:480px) and (max-width:680px){.gallery,.station{min-height:580px}.shirt-button{top:105px;width:min(58vw,285px)}}
-@media(max-width:359px){.header-link{font-size:8px}.brand-name{font-size:27px}.shirt-button{width:min(79vw,295px);top:140px}.wall-top span{font-size:7.5px}.station-label{font-size:9px}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.gallery{scroll-behavior:auto}.station.is-flickering .light-beam,.station.is-flickering .fixture-glow,.station.is-flickering .fixture-bulb{animation:none}.shirt-button,.light-beam,.fixture-glow,.fixture-bulb{transition:none}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#5c5751">
+  <meta name="description" content="OFF SZN Lifting Club. Coming soon.">
+  <title>OFF SZN — Lifting Club</title>
+  <link rel="preload" href="assets/wall-off.webp" as="image" type="image/webp">
+  <link rel="preload" href="assets/wall-on.webp" as="image" type="image/webp">
+  <style>
+  :root{color-scheme:dark;--ink:#24221f;--wall:#69635b;--off:url('assets/wall-off.webp');--on:url('assets/wall-on.webp')}
+  *{box-sizing:border-box}html{height:100%}body{margin:0;min-height:100%;background:#57534d;font-family:Arial,Helvetica,sans-serif;overflow:hidden}
+  button,a{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:2px solid #ead6af;outline-offset:4px}
+  .skip{position:absolute;left:-9999px;top:1rem;padding:10px;background:#252422;color:#fff;z-index:100}.skip:focus{left:1rem}
+  .screen{position:relative;width:100%;height:100svh;min-height:400px;isolation:isolate;overflow:hidden}
+  .ambient-wall{position:absolute;inset:-35px;z-index:-2;background:var(--off) center/cover;filter:blur(24px) brightness(.66)}
+  .desktop-scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .artboard{position:relative;width:min(100vw,calc(100svh * 1843 / 883));aspect-ratio:1843/883;max-height:100svh;background:var(--off) center/100% 100% no-repeat;box-shadow:0 0 65px #18171522;overflow:hidden}
+  .light-area,.hover-detail{position:absolute;inset:0;pointer-events:none;background:var(--on) center/100% 100% no-repeat;opacity:0}
+  .light-area{transition:opacity .14s ease;mask-image:radial-gradient(ellipse 15.8% 30% at var(--cx) 45%,#000 0%,#000 39%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 15.8% 30% at var(--cx) 45%,#000 0%,#000 39%,transparent 100%)}
+  .hover-detail{transition:opacity .26s ease,transform .55s cubic-bezier(.22,.6,.27,1);mask-image:radial-gradient(ellipse 10.5% 23% at var(--cx) 61%,#000 0%,#000 54%,transparent 98%);-webkit-mask-image:radial-gradient(ellipse 10.5% 23% at var(--cx) 61%,#000 0%,#000 54%,transparent 98%);transform:scale(1);transform-origin:var(--cx) 61%}
+  .station.is-lit .light-area{opacity:1}.station.is-lit .hover-detail{opacity:.96;transform:scale(1.035)}
+  .station.is-flickering .light-area{animation:single-flicker .74s steps(1,end) both}
+  .station.is-flickering .hover-detail{animation:shirt-fade .74s steps(1,end) both}
+  @keyframes single-flicker{0%,7%,16%,23%,35%,43%{opacity:0}8%,15%,24%,34%{opacity:1}36%,42%{opacity:.22}44%,100%{opacity:1}}
+  @keyframes shirt-fade{0%,43%{opacity:0}44%,100%{opacity:.96}}
+  .station{position:absolute;inset:0;pointer-events:none}
+  .shirt-trigger{position:absolute;z-index:4;top:40%;width:18%;height:45%;padding:0;border:0;background:transparent;pointer-events:auto;touch-action:manipulation}
+  .shirt-trigger[data-index="0"]{left:16.6%}.shirt-trigger[data-index="1"]{left:42.4%}.shirt-trigger[data-index="2"]{left:68.1%}
+  .station[data-index="0"]{--cx:25.7%}.station[data-index="1"]{--cx:51.5%}.station[data-index="2"]{--cx:76.9%}
+  .menu-toggle{position:absolute;z-index:20;left:3.1%;top:7%;width:4.5%;height:5.3%;min-width:44px;min-height:44px;border:0;background:transparent;padding:0;display:grid;place-content:center;gap:6px;color:#252421}
+  .menu-toggle span{display:block;width:28px;height:2px;background:currentColor;box-shadow:0 1px 0 #ffffff16;transition:transform .2s ease,opacity .2s ease}
+  /* The reference already has a photographed menu icon. Keep the hit target but don't draw a second icon. */
+  .desktop-scene .menu-toggle span{opacity:0}
+  .menu-toggle[aria-expanded="true"] span:first-child{transform:translateY(8px) rotate(45deg)}
+  .menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .menu-toggle[aria-expanded="true"] span:last-child{transform:translateY(-8px) rotate(-45deg)}
+  .menu-panel{position:absolute;z-index:21;left:3.2%;top:13.4%;width:min(260px,82vw);padding:13px;background:rgba(34,32,30,.96);color:#f6f2ea;box-shadow:0 18px 40px #0005;border:1px solid #ffffff27;backdrop-filter:blur(10px)}
+  .menu-panel[hidden]{display:none}.menu-panel a{display:block;padding:15px 11px;color:inherit;text-decoration:none;text-transform:uppercase;letter-spacing:.17em;font-size:11px;line-height:1.3;border-bottom:1px solid #ffffff23}.menu-panel a:last-child{border:0}.menu-panel a:hover{background:#ffffff12}
+  .mobile-view{display:none}
+  @media(max-width:700px){
+    body{overflow:hidden}.screen{display:flex;flex-direction:column;min-height:560px}
+    .desktop-scene{display:none}
+    .mobile-view{display:flex;flex:1;flex-direction:column;min-height:0}
+    .mobile-header{height:clamp(133px,22svh,198px);flex:0 0 auto;position:relative;z-index:12;background:url('assets/mobile-header.webp') center/100% 100% no-repeat;overflow:visible;isolation:isolate}
+    .mobile-header:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(85,80,74,.08),transparent 45%);z-index:-1}
+    .mobile-logo{display:none}
+    .mobile-menu{position:absolute;left:14px;top:13px;z-index:25}
+    .mobile-menu .menu-toggle{position:static;width:46px;height:46px;min-width:46px;min-height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#221f1c}
+    .mobile-menu .menu-toggle span{width:27px;height:2px}
+    .mobile-menu .menu-panel{position:fixed;left:14px;top:68px;min-width:220px;width:60vw}
+    .mobile-gallery{display:flex;flex:1;min-height:0;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x}
+    .mobile-gallery::-webkit-scrollbar{display:none}
+    .mobile-panel{position:relative;flex:0 0 100%;height:100%;min-height:0;scroll-snap-align:center;scroll-snap-stop:always;isolation:isolate;overflow:hidden;background:var(--off) var(--pan) 100% / auto 140% no-repeat}
+    .mobile-panel:after{content:"";position:absolute;inset:auto 0 0;height:8%;background:linear-gradient(0deg,#15141233,transparent);pointer-events:none}
+    .mobile-lit,.mobile-zoom{position:absolute;inset:0;pointer-events:none;background:var(--on) var(--pan) 100% / auto 140% no-repeat;opacity:0}
+    .mobile-lit{transition:opacity .16s ease}.mobile-zoom{mask-image:radial-gradient(ellipse 48% 39% at 50% 55%,#000 0%,#000 52%,transparent 98%);-webkit-mask-image:radial-gradient(ellipse 48% 39% at 50% 55%,#000 0%,#000 52%,transparent 98%);transform-origin:50% 57%;transition:opacity .24s ease,transform .5s ease;transform:scale(1)}
+    .mobile-panel.is-lit .mobile-lit{opacity:1}.mobile-panel.is-lit .mobile-zoom{opacity:1;transform:scale(1.023)}
+    .mobile-panel.is-flickering .mobile-lit{animation:single-flicker .74s steps(1,end) both}
+    .mobile-panel.is-flickering .mobile-zoom{animation:shirt-fade .74s steps(1,end) both}
+    .mobile-panel[data-index="0"]{--pan:18.6%}.mobile-panel[data-index="1"]{--pan:52%}.mobile-panel[data-index="2"]{--pan:84.5%}
+    .mobile-panel button{position:absolute;inset:0;width:100%;border:0;background:transparent;color:transparent;cursor:default}
+    .mobile-controls{height:54px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;gap:28px;background:#645f58;color:#e5ddd0}
+    .mobile-arrow{border:0;background:transparent;color:inherit;width:40px;height:44px;font-size:27px;font-weight:200;line-height:1}.mobile-arrow:disabled{opacity:.23}
+    .dots{display:flex;align-items:center;justify-content:center;gap:11px;min-width:55px}.dot{width:5px;height:5px;border-radius:50%;background:#eee5d64a}.dot.active{background:#eee5d6;transform:scale(1.35)}
+  }
+  @media(prefers-reduced-motion:reduce){.station.is-flickering .light-area,.station.is-flickering .hover-detail,.mobile-panel.is-flickering .mobile-lit,.mobile-panel.is-flickering .mobile-zoom{animation:none}.mobile-gallery{scroll-behavior:auto}.hover-detail,.mobile-zoom,.light-area,.mobile-lit{transition:none}}
+  </style>
 </head>
 <body>
-<a class="skip" href="#gallery">Skip to shirts</a>
-<div class="site">
-  <header class="site-header">
-    <div class="menu-wrap">
-      <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation menu" aria-controls="menu-panel" aria-expanded="false"><span></span><span></span><span></span></button>
-      <nav class="menu-panel" id="menu-panel" aria-label="Site navigation" hidden>
-        <a href="#gallery">The collection</a>
-        <a href="https://www.instagram.com/offszn_apparel/" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
-        <a href="mailto:contact.offsznapparel@gmail.com">Contact ↗</a>
-      </nav>
-    </div>
-    <a href="#top" class="brand" aria-label="OFF SZN Lifting Club home"><span class="brand-name"><span class="brand-star">✧</span>OFF SZN</span><span class="brand-sub">LIFTING CLUB</span></a>
-
-  </header>
-  <main id="top">
-    <section class="wall" aria-label="OFF SZN first collection coming soon">
-
-      <div class="gallery" id="gallery" role="region" aria-label="Three OFF SZN shirts" tabindex="0">
-<article class="station" data-index="0" aria-label="Midnight black OFF SZN T-shirt">
-      <span class="light-beam" aria-hidden="true"></span>
-      <span class="fixture" aria-hidden="true"><span class="fixture-wire"></span><span class="fixture-shade"></span><span class="fixture-bulb"></span><span class="fixture-glow"></span></span>
-      <button class="shirt-button" type="button" aria-label="Illuminate midnight shirt" aria-pressed="false"><svg aria-hidden="true" class="shirt-svg" viewbox="0 0 320 389" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<lineargradient id="fabric01" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#08090a"></stop><stop offset=".18" stop-color="#303134"></stop><stop offset=".39" stop-color="#151617"></stop><stop offset=".65" stop-color="#303134"></stop><stop offset=".88" stop-color="#151617"></stop><stop offset="1" stop-color="#08090a"></stop></lineargradient>
-<lineargradient id="fold01" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#4f5051" stop-opacity=".32"></stop><stop offset=".6" stop-color="#151617" stop-opacity="0"></stop><stop offset="1" stop-color="#08090a" stop-opacity=".4"></stop></lineargradient>
-<filter height="100%" id="grain01" width="100%" x="0" y="0"><feturbulence basefrequency=".47" numoctaves="2" result="noise" seed="4" stitchtiles="stitch" type="fractalNoise"></feturbulence><fecolormatrix in="noise" type="saturate" values="0"></fecolormatrix><fecomponenttransfer><fefunca slope=".075" type="linear"></fefunca></fecomponenttransfer></filter>
-<clippath id="shape01"><path d="M114 48 80 57 Q58 64 43 88 L11 145 Q7 153 18 158 L61 177 Q68 180 74 167 L89 144 84 334 Q84 343 96 344 L224 344 Q235 343 236 334 L231 144 246 167 Q252 180 260 177 L303 158 Q313 153 307 145 L276 88 Q262 65 238 57 L205 48 Q185 64 160 65 Q134 64 114 48Z"></path></clippath>
-</defs>
-<path d="M147 40 Q148 26 163 24 Q171 24 170 16 Q168 8 160 8" fill="none" stroke="#302f2b" stroke-linecap="round" stroke-width="5"></path>
-<path d="M160 28 119 53 M160 28 201 53" fill="none" stroke="#262421" stroke-linecap="round" stroke-width="5"></path>
-<path d="M114 48 80 57 Q58 64 43 88 L11 145 Q7 153 18 158 L61 177 Q68 180 74 167 L89 144 84 334 Q84 343 96 344 L224 344 Q235 343 236 334 L231 144 246 167 Q252 180 260 177 L303 158 Q313 153 307 145 L276 88 Q262 65 238 57 L205 48 Q185 64 160 65 Q134 64 114 48Z" fill="url(#fabric01)" stroke="#08090a" stroke-width="2"></path>
-<g clip-path="url(#shape01)">
-<path d="M92 61 Q115 107 110 345 L144 345 Q148 170 130 72Z" fill="url(#fold01)" opacity=".5"></path>
-<path d="M212 55 Q184 136 208 344 L239 344 Q224 146 238 66Z" fill="#08090a" opacity=".15"></path>
-<path d="M76 100 Q84 171 76 220 M237 102 Q234 193 242 251 M105 96 Q116 196 110 339 M205 93 Q201 202 213 338" fill="none" opacity=".13" stroke="#4f5051" stroke-width="6"></path>
-<path d="M73 333 Q155 342 239 333 M24 154 61 170 M261 170 299 154" fill="none" opacity=".7" stroke="#56565a" stroke-width="1.7"></path>
-<path d="M74 326 Q157 333 237 326" fill="none" opacity=".65" stroke="#08090a" stroke-width="2"></path>
-<path d="M79 65 Q69 88 65 135 M241 66 Q254 91 255 135" fill="none" opacity=".55" stroke="#56565a" stroke-width="2"></path>
-<rect filter="url(#grain01)" height="310" opacity=".7" width="320" x="0" y="45"></rect>
-</g>
-<path d="M117 48 Q158 95 203 48 L190 45 Q162 71 130 46Z" fill="#08090a" stroke="#56565a" stroke-width="1.5"></path>
-<path d="M126 49 Q159 77 194 49" fill="none" opacity=".7" stroke="#56565a" stroke-width="2.5"></path>
-<g fill="#dfd9cc" text-anchor="middle">
-<text font-family="Georgia, 'Times New Roman', serif" font-size="34" letter-spacing="-2.4" x="160" y="169">OFF</text>
-<text font-family="Georgia, 'Times New Roman', serif" font-size="35" letter-spacing="-2.1" x="160" y="201">SZN</text>
-<path d="M126 144 Q129 158 140 161 Q129 164 126 177 Q124 164 112 161 Q124 157 126 144Z" transform="translate(7 -10) scale(.54)"></path>
-</g>
-</svg></button>
-      <div class="station-label"><span>01 / MIDNIGHT</span><span>BLACK</span></div>
-    </article>
-<article class="station" data-index="1" aria-label="Bone cream OFF SZN T-shirt">
-      <span class="light-beam" aria-hidden="true"></span>
-      <span class="fixture" aria-hidden="true"><span class="fixture-wire"></span><span class="fixture-shade"></span><span class="fixture-bulb"></span><span class="fixture-glow"></span></span>
-      <button class="shirt-button" type="button" aria-label="Illuminate bone shirt" aria-pressed="false"><svg aria-hidden="true" class="shirt-svg" viewbox="0 0 320 389" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<lineargradient id="fabric02" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#77756e"></stop><stop offset=".18" stop-color="#d9d5cb"></stop><stop offset=".39" stop-color="#c2beb4"></stop><stop offset=".65" stop-color="#d9d5cb"></stop><stop offset=".88" stop-color="#c2beb4"></stop><stop offset="1" stop-color="#77756e"></stop></lineargradient>
-<lineargradient id="fold02" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#f0eae0" stop-opacity=".32"></stop><stop offset=".6" stop-color="#c2beb4" stop-opacity="0"></stop><stop offset="1" stop-color="#77756e" stop-opacity=".4"></stop></lineargradient>
-<filter height="100%" id="grain02" width="100%" x="0" y="0"><feturbulence basefrequency=".47" numoctaves="2" result="noise" seed="4" stitchtiles="stitch" type="fractalNoise"></feturbulence><fecolormatrix in="noise" type="saturate" values="0"></fecolormatrix><fecomponenttransfer><fefunca slope=".075" type="linear"></fefunca></fecomponenttransfer></filter>
-<clippath id="shape02"><path d="M114 48 80 57 Q58 64 43 88 L11 145 Q7 153 18 158 L61 177 Q68 180 74 167 L89 144 84 334 Q84 343 96 344 L224 344 Q235 343 236 334 L231 144 246 167 Q252 180 260 177 L303 158 Q313 153 307 145 L276 88 Q262 65 238 57 L205 48 Q185 64 160 65 Q134 64 114 48Z"></path></clippath>
-</defs>
-<path d="M147 40 Q148 26 163 24 Q171 24 170 16 Q168 8 160 8" fill="none" stroke="#302f2b" stroke-linecap="round" stroke-width="5"></path>
-<path d="M160 28 119 53 M160 28 201 53" fill="none" stroke="#262421" stroke-linecap="round" stroke-width="5"></path>
-<path d="M114 48 80 57 Q58 64 43 88 L11 145 Q7 153 18 158 L61 177 Q68 180 74 167 L89 144 84 334 Q84 343 96 344 L224 344 Q235 343 236 334 L231 144 246 167 Q252 180 260 177 L303 158 Q313 153 307 145 L276 88 Q262 65 238 57 L205 48 Q185 64 160 65 Q134 64 114 48Z" fill="url(#fabric02)" stroke="#77756e" stroke-width="2"></path>
-<g clip-path="url(#shape02)">
-<path d="M92 61 Q115 107 110 345 L144 345 Q148 170 130 72Z" fill="url(#fold02)" opacity=".5"></path>
-<path d="M212 55 Q184 136 208 344 L239 344 Q224 146 238 66Z" fill="#77756e" opacity=".15"></path>
-<path d="M76 100 Q84 171 76 220 M237 102 Q234 193 242 251 M105 96 Q116 196 110 339 M205 93 Q201 202 213 338" fill="none" opacity=".13" stroke="#f0eae0" stroke-width="6"></path>
-<path d="M73 333 Q155 342 239 333 M24 154 61 170 M261 170 299 154" fill="none" opacity=".7" stroke="#a09c93" stroke-width="1.7"></path>
-<path d="M74 326 Q157 333 237 326" fill="none" opacity=".65" stroke="#77756e" stroke-width="2"></path>
-<path d="M79 65 Q69 88 65 135 M241 66 Q254 91 255 135" fill="none" opacity=".55" stroke="#a09c93" stroke-width="2"></path>
-<rect filter="url(#grain02)" height="310" opacity=".7" width="320" x="0" y="45"></rect>
-</g>
-<path d="M117 48 Q158 95 203 48 L190 45 Q162 71 130 46Z" fill="#77756e" stroke="#a09c93" stroke-width="1.5"></path>
-<path d="M126 49 Q159 77 194 49" fill="none" opacity=".7" stroke="#a09c93" stroke-width="2.5"></path>
-<g fill="#242323" text-anchor="middle">
-<text font-family="Georgia, 'Times New Roman', serif" font-size="34" letter-spacing="-2.4" x="160" y="169">OFF</text>
-<text font-family="Georgia, 'Times New Roman', serif" font-size="35" letter-spacing="-2.1" x="160" y="201">SZN</text>
-<path d="M126 144 Q129 158 140 161 Q129 164 126 177 Q124 164 112 161 Q124 157 126 144Z" transform="translate(7 -10) scale(.54)"></path>
-</g>
-</svg></button>
-      <div class="station-label"><span>02 / BONE</span><span>CREAM</span></div>
-    </article>
-<article class="station" data-index="2" aria-label="Graphite charcoal OFF SZN T-shirt">
-      <span class="light-beam" aria-hidden="true"></span>
-      <span class="fixture" aria-hidden="true"><span class="fixture-wire"></span><span class="fixture-shade"></span><span class="fixture-bulb"></span><span class="fixture-glow"></span></span>
-      <button class="shirt-button" type="button" aria-label="Illuminate graphite shirt" aria-pressed="false"><svg aria-hidden="true" class="shirt-svg" viewbox="0 0 320 389" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<lineargradient id="fabric03" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#1f2020"></stop><stop offset=".18" stop-color="#646261"></stop><stop offset=".39" stop-color="#414040"></stop><stop offset=".65" stop-color="#646261"></stop><stop offset=".88" stop-color="#414040"></stop><stop offset="1" stop-color="#1f2020"></stop></lineargradient>
-<lineargradient id="fold03" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#92908a" stop-opacity=".32"></stop><stop offset=".6" stop-color="#414040" stop-opacity="0"></stop><stop offset="1" stop-color="#1f2020" stop-opacity=".4"></stop></lineargradient>
-<filter height="100%" id="grain03" width="100%" x="0" y="0"><feturbulence basefrequency=".47" numoctaves="2" result="noise" seed="4" stitchtiles="stitch" type="fractalNoise"></feturbulence><fecolormatrix in="noise" type="saturate" values="0"></fecolormatrix><fecomponenttransfer><fefunca slope=".075" type="linear"></fefunca></fecomponenttransfer></filter>
-<clippath id="shape03"><path d="M114 48 80 57 Q58 64 43 88 L11 145 Q7 153 18 158 L61 177 Q68 180 74 167 L89 144 84 334 Q84 343 96 344 L224 344 Q235 343 236 334 L231 144 246 167 Q252 180 260 177 L303 158 Q313 153 307 145 L276 88 Q262 65 238 57 L205 48 Q185 64 160 65 Q134 64 114 48Z"></path></clippath>
-</defs>
-<path d="M147 40 Q148 26 163 24 Q171 24 170 16 Q168 8 160 8" fill="none" stroke="#302f2b" stroke-linecap="round" stroke-width="5"></path>
-<path d="M160 28 119 53 M160 28 201 53" fill="none" stroke="#262421" stroke-linecap="round" stroke-width="5"></path>
-<path d="M114 48 80 57 Q58 64 43 88 L11 145 Q7 153 18 158 L61 177 Q68 180 74 167 L89 144 84 334 Q84 343 96 344 L224 344 Q235 343 236 334 L231 144 246 167 Q252 180 260 177 L303 158 Q313 153 307 145 L276 88 Q262 65 238 57 L205 48 Q185 64 160 65 Q134 64 114 48Z" fill="url(#fabric03)" stroke="#1f2020" stroke-width="2"></path>
-<g clip-path="url(#shape03)">
-<path d="M92 61 Q115 107 110 345 L144 345 Q148 170 130 72Z" fill="url(#fold03)" opacity=".5"></path>
-<path d="M212 55 Q184 136 208 344 L239 344 Q224 146 238 66Z" fill="#1f2020" opacity=".15"></path>
-<path d="M76 100 Q84 171 76 220 M237 102 Q234 193 242 251 M105 96 Q116 196 110 339 M205 93 Q201 202 213 338" fill="none" opacity=".13" stroke="#92908a" stroke-width="6"></path>
-<path d="M73 333 Q155 342 239 333 M24 154 61 170 M261 170 299 154" fill="none" opacity=".7" stroke="#7b7975" stroke-width="1.7"></path>
-<path d="M74 326 Q157 333 237 326" fill="none" opacity=".65" stroke="#1f2020" stroke-width="2"></path>
-<path d="M79 65 Q69 88 65 135 M241 66 Q254 91 255 135" fill="none" opacity=".55" stroke="#7b7975" stroke-width="2"></path>
-<rect filter="url(#grain03)" height="310" opacity=".7" width="320" x="0" y="45"></rect>
-</g>
-<path d="M117 48 Q158 95 203 48 L190 45 Q162 71 130 46Z" fill="#1f2020" stroke="#7b7975" stroke-width="1.5"></path>
-<path d="M126 49 Q159 77 194 49" fill="none" opacity=".7" stroke="#7b7975" stroke-width="2.5"></path>
-<g fill="#eae3d6" text-anchor="middle">
-<text font-family="Georgia, 'Times New Roman', serif" font-size="34" letter-spacing="-2.4" x="160" y="169">OFF</text>
-<text font-family="Georgia, 'Times New Roman', serif" font-size="35" letter-spacing="-2.1" x="160" y="201">SZN</text>
-<path d="M126 144 Q129 158 140 161 Q129 164 126 177 Q124 164 112 161 Q124 157 126 144Z" transform="translate(7 -10) scale(.54)"></path>
-</g>
-</svg></button>
-      <div class="station-label"><span>03 / GRAPHITE</span><span>CHARCOAL</span></div>
-    </article>
+<a class="skip" href="#collection">Skip to the collection</a>
+<main class="screen" aria-label="OFF SZN Lifting Club teaser collection">
+  <div class="ambient-wall" aria-hidden="true"></div>
+  <div class="desktop-scene" id="desktop-scene">
+    <div class="artboard" id="collection" aria-label="Three OFF SZN coming soon shirts on a concrete wall">
+      <div class="station" data-index="0"><div class="light-area" aria-hidden="true"></div><div class="hover-detail" aria-hidden="true"></div><button class="shirt-trigger" data-index="0" aria-label="Preview shirt 001" type="button"></button></div>
+      <div class="station" data-index="1"><div class="light-area" aria-hidden="true"></div><div class="hover-detail" aria-hidden="true"></div><button class="shirt-trigger" data-index="1" aria-label="Preview shirt 002" type="button"></button></div>
+      <div class="station" data-index="2"><div class="light-area" aria-hidden="true"></div><div class="hover-detail" aria-hidden="true"></div><button class="shirt-trigger" data-index="2" aria-label="Preview shirt 003" type="button"></button></div>
+      <div class="desktop-menu">
+        <button class="menu-toggle" type="button" aria-controls="desktop-menu-panel" aria-expanded="false" aria-label="Open menu"><span></span><span></span><span></span></button>
+        <nav class="menu-panel" id="desktop-menu-panel" aria-label="Site links" hidden><a href="#collection">Collection</a><a href="https://www.instagram.com/offszn_apparel/" rel="noopener noreferrer" target="_blank">Instagram ↗</a><a href="mailto:contact.offsznapparel@gmail.com">Contact ↗</a></nav>
       </div>
-      <nav class="gallery-controls" aria-label="Shirt carousel">
-        <button class="arrow" id="prev" type="button" aria-label="Previous shirt">‹</button>
-        <div class="slide-indicator"><span id="counter" aria-live="polite">01 / 03</span><span class="slide-dots" aria-hidden="true"><span class="current"></span><span></span><span></span></span></div>
-        <button class="arrow" id="next" type="button" aria-label="Next shirt">›</button>
-      </nav>
-
-    </section>
-  </main>
-
-</div>
+    </div>
+  </div>
+  <div class="mobile-view">
+    <header class="mobile-header">
+      <div class="mobile-menu">
+        <button class="menu-toggle" type="button" aria-controls="mobile-menu-panel" aria-expanded="false" aria-label="Open menu"><span></span><span></span><span></span></button>
+        <nav class="menu-panel" id="mobile-menu-panel" aria-label="Site links" hidden><a href="#mobile-collection">Collection</a><a href="https://www.instagram.com/offszn_apparel/" rel="noopener noreferrer" target="_blank">Instagram ↗</a><a href="mailto:contact.offsznapparel@gmail.com">Contact ↗</a></nav>
+      </div>
+    </header>
+    <div class="mobile-gallery" id="mobile-collection" tabindex="0" aria-label="Swipe to see three shirts" role="region">
+      <section class="mobile-panel" data-index="0" aria-label="Shirt 001"><div class="mobile-lit"></div><div class="mobile-zoom"></div><button type="button" aria-label="Shirt 001, coming soon"></button></section>
+      <section class="mobile-panel" data-index="1" aria-label="Shirt 002"><div class="mobile-lit"></div><div class="mobile-zoom"></div><button type="button" aria-label="Shirt 002, coming soon"></button></section>
+      <section class="mobile-panel" data-index="2" aria-label="Shirt 003"><div class="mobile-lit"></div><div class="mobile-zoom"></div><button type="button" aria-label="Shirt 003, coming soon"></button></section>
+    </div>
+    <nav class="mobile-controls" aria-label="Shirt carousel controls"><button class="mobile-arrow" id="prev" type="button" aria-label="Previous shirt">‹</button><div class="dots" aria-live="polite" aria-label="Shirt 1 of 3"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div><button class="mobile-arrow" id="next" type="button" aria-label="Next shirt">›</button></nav>
+  </div>
+</main>
 <script>
 (() => {
-  const menuToggle=document.getElementById('menu-toggle');
-  const menuPanel=document.getElementById('menu-panel');
-  function setMenu(open){menuPanel.hidden=!open;menuToggle.setAttribute('aria-expanded',String(open));menuToggle.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');}
-  menuToggle.addEventListener('click',()=>setMenu(menuPanel.hidden));
-  document.addEventListener('click',e=>{if(!e.target.closest('.menu-wrap'))setMenu(false);});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!menuPanel.hidden){setMenu(false);menuToggle.focus();}});
-  menuPanel.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
-  const gallery = document.getElementById('gallery');
-  const stations = [...gallery.querySelectorAll('.station')];
-  const mobile = matchMedia('(max-width: 680px)');
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const prev = document.getElementById('prev');
-  const next = document.getElementById('next');
-  const counter = document.getElementById('counter');
-  const dots = [...document.querySelectorAll('.slide-dots span')];
-  let current = -1;
-  let settleTimer;
-  const timers = new WeakMap();
-  document.getElementById('year').textContent = new Date().getFullYear();
-  function deactivate() {
-    stations.forEach(el => {
-      el.classList.remove('is-lit','is-flickering');
-      clearTimeout(timers.get(el));
-      el.querySelector('.shirt-button').setAttribute('aria-pressed','false');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const mobileMedia = matchMedia('(max-width: 700px)');
+  const menuNodes = [...document.querySelectorAll('.desktop-menu,.mobile-menu')];
+  const setMenu = (node,show) => {
+    const button = node.querySelector('.menu-toggle');
+    const panel = node.querySelector('.menu-panel');
+    panel.hidden = !show;
+    button.setAttribute('aria-expanded',String(show));
+    button.setAttribute('aria-label',show?'Close menu':'Open menu');
+  };
+  menuNodes.forEach(node => {
+    node.querySelector('.menu-toggle').addEventListener('click',() => {
+      const opening=node.querySelector('.menu-panel').hidden;
+      menuNodes.forEach(n=>setMenu(n,false));
+      setMenu(node,opening);
     });
-    current = -1;
+    node.querySelectorAll('.menu-panel a').forEach(a=>a.addEventListener('click',()=>setMenu(node,false)));
+  });
+  document.addEventListener('pointerdown',event=>{if(!event.target.closest('.desktop-menu,.mobile-menu'))menuNodes.forEach(n=>setMenu(n,false))});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape')menuNodes.forEach(n=>{if(!n.querySelector('.menu-panel').hidden){setMenu(n,false);n.querySelector('.menu-toggle').focus()}})});
+
+  const stations=[...document.querySelectorAll('.desktop-scene .station')];
+  const panels=[...document.querySelectorAll('.mobile-panel')];
+  const timers=new WeakMap();
+  let activeDesktop=-1,activeMobile=-1;
+  function offAll(elements){
+    elements.forEach(el=>{clearTimeout(timers.get(el));el.classList.remove('is-lit','is-flickering')});
   }
-  function activate(i) {
-    if (i < 0 || i >= stations.length || i === current) return;
-    deactivate();
-    const el = stations[i];
-    current = i;
+  function turnOn(el){
     el.classList.add('is-lit');
-    el.querySelector('.shirt-button').setAttribute('aria-pressed','true');
-    if (!reduced.matches) {
-      void el.offsetWidth;
-      el.classList.add('is-flickering');
-      timers.set(el, setTimeout(() => { el.classList.remove('is-flickering'); }, 800));
-    }
+    if(reduce.matches)return;
+    void el.offsetWidth;
+    el.classList.add('is-flickering');
+    timers.set(el,setTimeout(()=>el.classList.remove('is-flickering'),780));
   }
-  function centeredIndex() {
-    const middle = gallery.getBoundingClientRect().left + gallery.clientWidth / 2;
-    let best = 0, distance = Infinity;
-    stations.forEach((el,i) => {
-      const rect = el.getBoundingClientRect();
-      const d = Math.abs(rect.left + rect.width/2 - middle);
-      if (d < distance) { best = i; distance = d; }
-    });
-    return best;
+  function desktopActivate(index){
+    if(mobileMedia.matches||activeDesktop===index)return;
+    offAll(stations);activeDesktop=index;
+    if(index>=0)turnOn(stations[index]);
   }
-  function updateControls(i) {
-    counter.textContent = String(i+1).padStart(2,'0') + ' / 03';
-    dots.forEach((el,k) => el.classList.toggle('current', k===i));
-    prev.disabled = i===0;
-    next.disabled = i===stations.length-1;
-  }
-  function syncMobile() {
-    if(!mobile.matches) return;
-    const i=centeredIndex();
-    activate(i);
-    updateControls(i);
-  }
-  function goTo(i) {
-    if(i<0 || i>=stations.length || !mobile.matches) return;
-    gallery.scrollTo({left:i*gallery.clientWidth,behavior:reduced.matches?'instant':'smooth'});
-    activate(i);
-    updateControls(i);
-  }
-  stations.forEach((el,i) => {
-    const shirt = el.querySelector('.shirt-button');
-    shirt.addEventListener('pointerenter',e => {if(!mobile.matches && e.pointerType!=='touch') activate(i);});
-    shirt.addEventListener('pointerleave',e => {if(!mobile.matches && e.pointerType!=='touch') deactivate();});
-    el.addEventListener('focusin',() => {if(!mobile.matches) activate(i);});
-    el.addEventListener('focusout',e=> {if(!mobile.matches && !el.contains(e.relatedTarget))deactivate();});
-    shirt.addEventListener('click',()=> {if(mobile.matches)goTo(i);});
+  stations.forEach((station,index)=>{
+    const trigger=station.querySelector('button');
+    trigger.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')desktopActivate(index)});
+    trigger.addEventListener('pointerleave',event=>{if(event.pointerType!=='touch')desktopActivate(-1)});
+    trigger.addEventListener('focus',()=>desktopActivate(index));
+    trigger.addEventListener('blur',()=>desktopActivate(-1));
+    trigger.addEventListener('click',()=>desktopActivate(index));
   });
-  gallery.addEventListener('scroll',()=>{
-    if(!mobile.matches)return;
-    clearTimeout(settleTimer);
-    settleTimer=setTimeout(syncMobile,95);
-  },{passive:true});
-  gallery.addEventListener('scrollend',syncMobile);
-  gallery.addEventListener('keydown',e=>{
-    if(!mobile.matches)return;
-    if(e.key==='ArrowRight'||e.key==='ArrowLeft'){
-      e.preventDefault();goTo(Math.max(0,Math.min(stations.length-1,centeredIndex()+(e.key==='ArrowRight'?1:-1))));
+  const gallery=document.getElementById('mobile-collection');
+  const prev=document.getElementById('prev'),next=document.getElementById('next');
+  const dots=[...document.querySelectorAll('.dot')];
+  const dotsRegion=document.querySelector('.dots');
+  let scrollTimer;
+  const currentPanel=()=>{
+    const center=gallery.getBoundingClientRect().left+gallery.clientWidth/2;
+    let winner=0,best=Infinity;
+    panels.forEach((el,i)=>{const r=el.getBoundingClientRect();const d=Math.abs(r.left+r.width/2-center);if(d<best){best=d;winner=i}});
+    return winner;
+  };
+  function mobileActivate(index){
+    if(activeMobile!==index){offAll(panels);activeMobile=index;turnOn(panels[index])}
+    dots.forEach((el,i)=>el.classList.toggle('active',i===index));
+    dotsRegion.setAttribute('aria-label',`Shirt ${index+1} of 3`);
+    prev.disabled=index===0;next.disabled=index===panels.length-1;
+  }
+  function go(index){
+    if(index<0||index>=panels.length)return;
+    gallery.scrollTo({left:panels[index].offsetLeft-panels[0].offsetLeft,behavior:reduce.matches?'instant':'smooth'});
+    mobileActivate(index);
+  }
+  gallery.addEventListener('scroll',()=>{clearTimeout(scrollTimer);scrollTimer=setTimeout(()=>mobileActivate(currentPanel()),110)},{passive:true});
+  gallery.addEventListener('scrollend',()=>mobileActivate(currentPanel()));
+  gallery.addEventListener('keydown',event=>{
+    if(event.key==='ArrowLeft'||event.key==='ArrowRight'){
+      event.preventDefault();go(Math.max(0,Math.min(2,currentPanel()+(event.key==='ArrowRight'?1:-1))))
     }
   });
-  prev.addEventListener('click',()=>goTo(centeredIndex()-1));
-  next.addEventListener('click',()=>goTo(centeredIndex()+1));
-  mobile.addEventListener('change',()=>{deactivate();if(mobile.matches){gallery.scrollTo({left:0,behavior:'instant'});activate(0);updateControls(0)}});
-  if(mobile.matches){activate(0);updateControls(0)}else{deactivate()}
+  prev.addEventListener('click',()=>go(currentPanel()-1));
+  next.addEventListener('click',()=>go(currentPanel()+1));
+  mobileMedia.addEventListener('change',()=>{
+    if(mobileMedia.matches){activeDesktop=-1;offAll(stations);gallery.scrollLeft=0;activeMobile=-1;mobileActivate(0)}
+    else{activeMobile=-1;offAll(panels);activeDesktop=-1;offAll(stations)}
+    menuNodes.forEach(n=>setMenu(n,false));
+  });
+  mobileActivate(0);
 })();
 </script>
-</body></html>
+</body>
+</html>

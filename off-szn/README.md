@@ -1,17 +1,21 @@
-# OFF SZN — Minimal Concrete Showroom (Version 4)
+# OFF SZN Lifting Club · Photo Teaser
 
-A minimalist OFF SZN Lifting Club coming-soon landing page: a textured concrete-wall display, three hanging shirts, and individual overhead lights. Inspired by the original OFF SZN Lovable concept and the understated styling of SKYLRK. This is a recreation, not exported Lovable source.
+A photo-first, minimalist landing page based on the supplied concrete-wall reference image. Three black blurred “COMING SOON” shirts and the embossed logo are part of the source artwork, not CSS-drawn shirts.
 
-## Interactions
+## Features
 
-- Desktop/laptop: all lights start off. Hover a shirt to make it subtly enlarge; its individual lamp flickers once and remains on until the pointer leaves. Keyboard focus works too.
-- Mobile: swipe horizontally between one shirt at a time, or use the arrows. Each new shirt activates its light with a one-time flicker.
-- Motion effects are reduced if the operating system requests reduced motion.
+- Photo-based dark/unlit and lit wall states. On desktop hover a shirt to flicker its spotlight on once and keep it on until the cursor leaves. A subtle detail overlay creates a slight forward-motion effect.
+- On mobile, swipe horizontally between shirts. Each new selected slide flickers its light on once. Minimal previous/next arrows and three dots are also available.
+- Three-line hamburger menu opens Instagram and contact links; outside click and Escape close it.
+- Keyboard access, mobile branding, and reduced-motion support.
+- No checkout, custom-order system, analytics, or dependencies.
 
-## Preview and customize
+## Preview locally
 
-Open `index.html` in a browser. All HTML, CSS, JavaScript, and editable SVG shirt mockups are contained in this file, without external assets. These are illustrated mockups, not real shirt photography.
+Double-click `index.html` in any modern browser. All image assets are in `assets/`.
 
-No store, checkout, or custom-shirt order system is included yet.
+## Hosting
 
-This project lives in `off-szn/` on the `off-szn-recreation` branch. The portfolio website's `main` branch is unchanged. Publishing to a separate live site is a later step.
+The site source is designed to live under `off-szn/` on the `off-szn-recreation` branch of `lukemay1181/lukemay1181.github.io`, keeping the existing main-branch portfolio untouched. GitHub Pages can publish a branch only when configured for that branch, so this is not deployed automatically.
+
+The Instagram and email destinations are based on the existing OFF SZN repository placeholders; confirm them before launching.
